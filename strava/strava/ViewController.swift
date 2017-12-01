@@ -149,15 +149,15 @@ class ViewController: UIViewController {
 extension ViewController : UITableViewDelegate,UITableViewDataSource
 {
     private func setTable() {
-        let displayWidth: CGFloat = self.view.frame.width
-        let displayHeight: CGFloat = self.view.frame.height
+        let displayWidth: CGFloat = view.frame.width
+        let displayHeight: CGFloat = view.frame.height
         
-        self.tableView = UITableView(frame: CGRect(x: 0, y:0, width: displayWidth, height: displayHeight))
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
-        self.tableView.register(ActivityCell.self, forCellReuseIdentifier: "activitycell")
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.view.addSubview(self.tableView)
+        tableView = UITableView(frame: CGRect(x: 0, y:0, width: displayWidth, height: displayHeight))
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
+        tableView.register(ActivityCell.self, forCellReuseIdentifier: "activitycell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        view.addSubview(self.tableView)
     };
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -166,8 +166,8 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:ActivityCell = (tableView.dequeueReusableCell(withIdentifier: "activitycell")as?ActivityCell)!
-        let convertedStartDate:String = Utils.convertStravaDate(stravaDate: self.activitesArray[indexPath.row].startDate)
-        let convertedDistance:String = Utils.metersToMiles(distance: self.activitesArray[indexPath.row].distance)
+        let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitesArray[indexPath.row].startDate)
+        let convertedDistance:String = Utils.metersToMiles(distance: activitesArray[indexPath.row].distance)
         let activityType:String = self.activitesArray[indexPath.row].name
         
         cell.setCell(startDate: convertedStartDate + "   |   " + activityType, distance:convertedDistance)
