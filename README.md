@@ -3,7 +3,7 @@
 
 Notes:
 
-*** my AppSecret token inside the. I can provide if needed to run the code. I wasn't sure what the protocol was for that for sample projects ***
+*** my AppSecret token is not inside the app. I can provide if needed to run the code. I wasn't sure what the protocol was for that for sample projects ***
 
 Node.js (serverside)
 For the webhooks portion there is a serverside code in order to create webhook subscriptions and a destination URL to receive the webhook POST events. 
