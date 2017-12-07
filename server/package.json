@@ -4,7 +4,9 @@
   "description": "![alt text](webhook_demo.gif)",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.16.2"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4",
   },
   "devDependencies": {},
   "scripts": {
