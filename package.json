@@ -1,0 +1,23 @@
+{
+  "name": "sc_spiromifsud",
+  "version": "1.0.0",
+  "description": "![alt text](webhook_demo.gif)",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raywenderlich/SC_SpiroMifsud.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raywenderlich/SC_SpiroMifsud/issues"
+  },
+  "homepage": "https://github.com/raywenderlich/SC_SpiroMifsud#readme"
+}
