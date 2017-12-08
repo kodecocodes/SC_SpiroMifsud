@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     }
     
     private func setSocket() {
-        manager = SocketManager(socketURL: URL(string: "http://52.32.131.208:8080")!,config: [.log(true),.connectParams(["token": "21222"])])
+        manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": [AppConfig.consumerKey]])])
         socket = manager.defaultSocket
         setSocketEvents()
         socket.connect()
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
     private func callStravaActivitesAPI() -> Void {
         activitesArray = []; // empty array
         
-        guard let url = URL(string: "https://www.strava.com/api/v3/athlete/activities") else { return }
+        guard let url = URL(string: AppConfig.API) else { return }
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET";
@@ -118,17 +118,17 @@ class ViewController: UIViewController {
     private func authenticateStrava() {
         //Oauth2
          self.oauthswift = OAuth2Swift(
-         consumerKey:    "21222",
-         consumerSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-         authorizeUrl:   "https://www.strava.com/oauth/authorize",
-         accessTokenUrl: "https://www.strava.com/oauth/token",
-         responseType:   "code"
+         consumerKey:    AppConfig.consumerKey,
+         consumerSecret: AppConfig.consumerSecret,
+         authorizeUrl:   AppConfig.authorizeURL,
+         accessTokenUrl: AppConfig.accessTokenUrl,
+         responseType:   AppConfig.responseType
          )
          
          self.oauthswift?.authorizeURLHandler = WebViewController();
         _ = self.oauthswift?.authorize(
-         withCallbackURL: URL(string: "com.materialcause.strava://52.32.131.208")!,
-         scope: "view_private,write", state:"123",
+         withCallbackURL: URL(string: AppConfig.callBackURL)!,
+         scope: AppConfig.scope, state: AppConfig.state,
          success: { credential, response, parameters in
          print(credential.oauthToken)
          UserDefaults.standard.set(credential.oauthToken, forKey: "token")

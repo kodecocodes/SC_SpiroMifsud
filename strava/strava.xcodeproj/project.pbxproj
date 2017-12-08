@@ -10,6 +10,7 @@
 		30368208D63C08AB818960A6 /* Pods_strava.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5615E2630C32B20404E0AB /* Pods_strava.framework */; };
 		B88350F507599A087132FABA /* Pods_stravaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D96045ABAA95E424F2EF9EB4 /* Pods_stravaUITests.framework */; };
 		C91CA974E09F3FD0D211019D /* Pods_stravaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABBFA2164763499D3CF5604 /* Pods_stravaTests.framework */; };
+		F8003CA61FDA222300AE31AD /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8003CA51FDA222300AE31AD /* AppConfig.swift */; };
 		F843BF3B1FCF1AFA00369036 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F843BF3A1FCF1AFA00369036 /* AppDelegate.swift */; };
 		F843BF3D1FCF1AFA00369036 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F843BF3C1FCF1AFA00369036 /* ViewController.swift */; };
 		F843BF401FCF1AFA00369036 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F843BF3E1FCF1AFA00369036 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		D8636D2B93433503FA508018 /* Pods-stravaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stravaUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-stravaUITests/Pods-stravaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D96045ABAA95E424F2EF9EB4 /* Pods_stravaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_stravaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EABBFA2164763499D3CF5604 /* Pods_stravaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_stravaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8003CA51FDA222300AE31AD /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		F843BF371FCF1AFA00369036 /* strava.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = strava.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F843BF3A1FCF1AFA00369036 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F843BF3C1FCF1AFA00369036 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				F843BF431FCF1AFA00369036 /* LaunchScreen.storyboard */,
 				F843BF461FCF1AFA00369036 /* Info.plist */,
 				F8778B541FD0976700940FAE /* StravaActivityStruct.swift */,
+				F8003CA51FDA222300AE31AD /* AppConfig.swift */,
 			);
 			path = strava;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				F8778B551FD0976700940FAE /* StravaActivityStruct.swift in Sources */,
 				F843BF3D1FCF1AFA00369036 /* ViewController.swift in Sources */,
 				F8778B591FD09EDF00940FAE /* ActivityCell.swift in Sources */,
+				F8003CA61FDA222300AE31AD /* AppConfig.swift in Sources */,
 				F843BF691FCFA6AB00369036 /* WebViewController.swift in Sources */,
 				F843BF3B1FCF1AFA00369036 /* AppDelegate.swift in Sources */,
 				F8778B5B1FD0A9E100940FAE /* Utils.swift in Sources */,
