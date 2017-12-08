@@ -29,14 +29,14 @@
 class AppConfig
 {
     static let appversion:String = "1.00022"
-    static let socketURL:String = "http://52.32.131.208:8080"
+    static let socketURL:String = "XXXXXXXXXXXXXXXXXX"
     static let API:String = "https://www.strava.com/api/v3/athlete/activities"
-    static let consumerKey:String = "21222"
-    static let consumerSecret:String = "XXXXXXXXXXXXXXXXXXXXXXXX"
+    static let consumerKey:String = "XXXXXX"
+    static let consumerSecret:String = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     static let authorizeURL:String = "https://www.strava.com/oauth/authorize"
     static let accessTokenUrl:String = "https://www.strava.com/oauth/token"
     static let responseType:String = "code"
-    static let callBackURL:String = "com.materialcause.strava://52.32.131.208"
+    static let callBackURL:String = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     static let scope:String = "view_private,write"
     static let state:String = "123"
 }
