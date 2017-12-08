@@ -24,5 +24,12 @@ iOS (clientside)
 The application starts out with an empty UITableView and a navigation button that allows the user to commence the oAuth2 process making use of oAuthSwift. A new webview is revealed and the user can login and give permission to read Strava data to the app. Once that is handled a token is stored in the app. For simplicity, it's stored using UserDefaults. A more secure storage is in keychain, but I felt it was creeping outside the scope of the project.  With permission granted to the app, webhooks are enabled and the token available is available for a Strava API call to gather activities. Retrieved data is parsed using the new Swift4 JSON decoding method. 
 To receive webhook events shortly after they are fired from the server, SocketIO has been added and an observer for 'activitiesUpdated' from the server.
 
+iOS Configuration
+
+We will create a file inside our iOS project called 'AppConfig.swift' to handle the authorization URLs, keys, client IDs that will be used throughout the project. It should mirror the following:
+
+![alt text](AppConfigscreen.jpeg)
+
+
 
 
