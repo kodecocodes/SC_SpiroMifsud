@@ -42,23 +42,47 @@ class ViewController: UIViewController {
     {
         super.viewDidLoad()
         self.setTable();
-          self.setSocket();
+        self.setSocket();
+        self.setNav();
         if let token = UserDefaults.standard.string(forKey: "token"){
             self.accessToken = token
             self.callStravaActivitesAPI()
+            setNavLogoutButton();
         }
-        self.setNav();
+        
+        else
+        {
+            setNavAuthenticateButton();
+        }
     };
+    
     
     private func setNav() {
         title = "Strava Activities";
-        let authenticateButton =  UIBarButtonItem(title: "oAuth", style: .plain, target: self, action: #selector(openAuth))
-        navigationItem.rightBarButtonItems = [authenticateButton]
     };
+    
+    private func setNavLogoutButton()
+    {
+        let authenticateButton =  UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        navigationItem.rightBarButtonItems = [authenticateButton]
+    }
+    
+    private func setNavAuthenticateButton()
+    {
+        let logoutButton =  UIBarButtonItem(title: "oAuth", style: .plain, target: self, action: #selector(openAuth))
+        navigationItem.rightBarButtonItems = [logoutButton]
+    }
     
     @objc private func openAuth (_ sender : UIButton) {
         self.authenticateStrava()
         NotificationCenter.default.addObserver(forName:NSNotification.Name(rawValue: "callActivities"), object:nil, queue:nil, using:callActivities)
+    }
+    
+    @objc private func logout (_ sender : UIButton) {
+        setNavAuthenticateButton()
+        UserDefaults.standard.set(nil, forKey: "token")
+        activitesArray = []; // empty array
+        tableView.reloadData()
     }
    
     private func callActivities (notification:Notification) {  self.callStravaActivitesAPI();
@@ -66,7 +90,7 @@ class ViewController: UIViewController {
     }
     
     private func setSocket() {
-        manager = SocketManager(socketURL: URL(string: "http://52.32.131.208:8080")!,config: [.log(true),.connectParams(["token": "21222"])])
+        manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": "21222"])])
         socket = manager.defaultSocket
         setSocketEvents()
         socket.connect()
@@ -85,7 +109,7 @@ class ViewController: UIViewController {
     private func callStravaActivitesAPI() -> Void {
         activitesArray = []; // empty array
         
-        guard let url = URL(string: "https://www.strava.com/api/v3/athlete/activities") else { return }
+        guard let url = URL(string: AppConfig.API) else { return }
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET";
@@ -118,21 +142,23 @@ class ViewController: UIViewController {
     private func authenticateStrava() {
         //Oauth2
          self.oauthswift = OAuth2Swift(
-         consumerKey:    "21222",
-         consumerSecret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-         authorizeUrl:   "https://www.strava.com/oauth/authorize",
-         accessTokenUrl: "https://www.strava.com/oauth/token",
-         responseType:   "code"
+         consumerKey:    AppConfig.consumerKey,
+         consumerSecret: AppConfig.consumerSecret,
+         authorizeUrl:   AppConfig.authorizeURL,
+         accessTokenUrl: AppConfig.accessTokenUrl,
+         responseType:   AppConfig.responseType
          )
          
          self.oauthswift?.authorizeURLHandler = WebViewController();
         _ = self.oauthswift?.authorize(
-         withCallbackURL: URL(string: "com.materialcause.strava://52.32.131.208")!,
-         scope: "view_private,write", state:"123",
+         withCallbackURL: URL(string: AppConfig.callBackURL)!,
+         scope: AppConfig.scope, state: AppConfig.state,
          success: { credential, response, parameters in
          print(credential.oauthToken)
          UserDefaults.standard.set(credential.oauthToken, forKey: "token")
          self.accessToken = credential.oauthToken;
+         
+         self.setNavLogoutButton()
          self.callStravaActivitesAPI(); // refresh table
          print ((parameters["athlete"]! as AnyObject)["id"]!!)
          },
