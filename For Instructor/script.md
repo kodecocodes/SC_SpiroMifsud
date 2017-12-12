@@ -1,22 +1,4 @@
-# Screencast Metadata
-
------
-
-### Language, Editor and Platform versions used in these screencasts:
-
-**Language:** Swift 4
-**Platform:** iOS 11, Node JS
-**Editor**: Xcode 9.1
-
------
-
-### RW Screencast Title:
-Accessing data using oAuth and Webhooks
-
-### Course Description:
-Using oAuth and Webhooks to access data from a popular site such as Strava inside an iOS application
-
------
+﻿
 
 TH
 ------------
