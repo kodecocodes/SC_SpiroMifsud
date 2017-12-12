@@ -204,11 +204,11 @@ Great. Now we’ve got our tableview looking nice and full of formatted data.
 
 TH
 ------------
-Ok, so we can access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us everytime a new activity is available so we can update our table? That’s where webhooks come in. We’ll set up a webhook subscription with Strava and have the Strava server notify us when a change takes place. 
+Ok, so we can access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us every time a new activity is available so we can update our table? That’s where webhooks come in. We’ll set up a webhook subscription with Strava and have the Strava server notify us when a change takes place. 
 
-In this next part, we’ll have to set up a simple server to receive the events and then notify our app. To achieve all this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
+In this next part, we’ll set up a simple server to receive the events and then notify our app. To achieve this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
 
-One thing to note --  for many services you’ll need to enable webhooks. For strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
+One thing to note --  for many services, including Strava, you’ll need to enable webhooks. For Strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
 
 Assuming you now have webhooks activated on the Strava end -- it’s time to dig in... 
 
@@ -219,15 +219,16 @@ CODING
 Looking inside our server file, app.js. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
 This function is actually a verification function we’ll use to send back a unique string to confirm our server is working after we subscribe our app to the webhook. In this case, the name of the string is called hub-challenge. Basically, we’ll get that string and simply send it right back.
 
-The POST part of the strava-subscriptions API, is the actual function that the Strava webhook will hit when an activity is added and then emit a socket event to our app that our event handler is waiting for, and then call the Strava API to fetch more data.
+The POST part of the strava-subscriptions API is the actual function that the Strava webhook will hit when an activity is added. It will then emit a socket event to our app that our event handler is waiting for, and then call the Strava API to fetch more data.
 
 TH
 ------------
-Our first step, is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your mac. 
+Our first step is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your Mac. 
 
 CODING
 ------------
 Inside the app.js file you’ll see the following functions. 
+
 From Mac Terminal we'll Install NodeJS and its package manager.
 
 Let's navigate to the project server files, and move those into a directory locally,  and install the node and the dependencies.
