@@ -245,7 +245,7 @@ Finally, let’s start the server.
 
 TH
 ------------
-Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be access from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
+Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be accessed from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
 
 On Screen
 ------------
@@ -259,7 +259,7 @@ CODING
 --------------------
 Back to our app. 
 
-Let’s go ahead and initialize Sockets  add that event handler. After we receive the notification a Strava activity has been added, our server will emit an event and the app will then call  the function we made earlier and call the API , then refresh our tableView.
+Let’s go ahead and initialize Sockets and add that event handler. After we receive the notification a Strava activity has been added, our server will emit an event. The app will then call the function we made earlier and call the API, then refresh our tableView.
 
     private func setSocket() {
             manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": "21222"])])
@@ -273,17 +273,17 @@ Let’s go ahead and initialize Sockets  add that event handler. After we receiv
             }
             
             socket.on("activitiesUpdated") {data, ack in
-              self.callStravaActivitesAPI()
+              self.callStravaActivitiesAPI()
             }
         }
 
-we'll also need to call setSocket after we authenticate to make sure we enable our socket connection initially.
+We'll also need to call setSocket after we authenticate to make sure we enable our socket connection initially.
 
-the project class contains a stubbed out function receiving an event from our web view. put the code in there:
+The project class contains a stubbed out function receiving an event from our web view. Put the code in there:
 
     self.setSocket()
 
-Our last step will be to subscribe our app to the enabled webhook. We’ll do that using the command they’ve given us. Remember, if we’re tunneling the webhook to our local machine, we’ll need to provide strava with that ngrok URL, not our local IP address. 
+Our last step will be to subscribe our app to the enabled webhook. We’ll do that using the command they’ve given us. Remember, if we’re tunneling the webhook to our local machine, we’ll need to provide Strava with that ngrok URL, not our local IP address. 
 
 CODING
 ------------
@@ -295,6 +295,7 @@ Opening your Mac Terminal. Typing in the following. Using the https version of y
 
 You should receive a confirmation message. Success! Now let’s test our webhook.
 
-[show app open and strava web site. Add an activity and watch the app update]
-Voila! We know have an app that access the Strava API via oAuth and receive webhook updates! 
+[show app open and Strava web site. Add an activity and watch the app update]
+Voila! We now have an app that can access the Strava API via oAuth and receive webhook updates! 
+
 Thanks for watching. Before you go, I’d like to thank Divyendu Singh for acting as tech editor.  Be sure to follow him on Strava!
