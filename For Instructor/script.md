@@ -93,7 +93,7 @@ Inside info.plist we’ll add an entry called URL types. Then we’ll add a URL 
 
 CODING
 ------------
-Going back to our ViewController. Here we'll also store this token in the app inside UserDefaults. This is not a very secure way to persist this type of data. Really, it's not secure and you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
+Going back to our ViewController. Here we'll also store this token in the app inside UserDefaults. This is not a very secure way to persist this type of data. Really, it's not secure and you’d want to use something like the keychain, but for demonstration purposes we’ll store the token in UserDefaults.
  
      UserDefaults.standard.set(credential.oauthToken, forKey: "token")
          self.accessToken = credential.oauthToken
@@ -101,7 +101,7 @@ Going back to our ViewController. Here we'll also store this token in the app in
 Then, we’ll change the navigation login button to a more appropriate logout function that’s already been provided.
 
       self.setNavLogoutButton()
-         self.callStravaActivitesAPI()
+         self.callStravaActivitiesAPI()
          },
 
 And, lastly we’ll want to print any errors to the console should something go wrong.
@@ -113,13 +113,13 @@ And, lastly we’ll want to print any errors to the console should something go 
     }
 }
 
-We’ve got a warning now that we have no function named callStravaActivitesAPI().
+We’ve got a warning now that we have no function named callStravaActivitiesAPI().
 We’ll stub one out for now. 
 
-Create an function callStravaActivites().
+Create a function callStravaActivities().
 And let’s print something to the console when this gets called.
 
-    private func callStravaActivitesAPI()
+    private func callStravaActivitiesAPI()
     {
           print(“I’ve been called!”);
     }
@@ -128,21 +128,21 @@ Let’s run the app.
 
 Ok, so looks like it’s opening the oAuth window to authenticate and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
 
-Time to put some that tableview!
+Time to put that data into the tableview!
 
-We’ll create a URL request to access the Strava API and add the required parameters to the header of our request.  But after that we’ll still need to parse the JSON response into our table cell. 
+We’ll create a URL request to access the Strava API and add the required parameters to the header of our request.  But after that, we’ll still need to parse the JSON response into our table cell. 
 
 TH
 ------------
-Inside our project file, you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We’re after the data called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows. 
+Inside our project file, you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We want to collect the data called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows. 
 
 Coding
 ------------
-Back to our callStravaActivitesAPI function.
+Back to our callStravaActivitiesAPI function.
 
  We’ll create an empty array to fill with data for our table.
    
-     activitesArray = []; 
+     activitiesArray = []; 
 
   Next, we’ll make a URL request to the Strava API.
  
@@ -165,10 +165,10 @@ Give the request the  proper parameters, return type, headers, and our token tha
             guard data != nil else { return }
             do {
           
-Now we’re adding the  iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. 
+Now we’re adding the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. 
 
 let decoded = try JSONDecoder().decode([StravaActivityStruct].self, from: data!)
-        for item in decoded {self.activitesArray.append(item)}
+        for item in decoded {self.activitiesArray.append(item)}
             
 Reload our table once JSON has been received, parsed, and added to our data array 
 
@@ -190,17 +190,17 @@ Looks close. Let’s format the data so it’s a little more readable. There’s
 
 We’ll convert the date to a more readible format here using convertStravaDate
 
-     let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitesArray[indexPath.row].startDate)
+     let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitiesArray[indexPath.row].startDate)
 
  
 And, we’ll convert meters to miles using metersToMiles
  
 
-     let convertedDistance:String = Utils.metersToMiles(distance: activitesArray[indexPath.row].distance)
+     let convertedDistance:String = Utils.metersToMiles(distance: activitiesArray[indexPath.row].distance)
 
 Run again.
 
-Great. Now we’ve got our tableview looking nice and full of data.
+Great. Now we’ve got our tableview looking nice and full of formatted data.
 
 TH
 ------------
