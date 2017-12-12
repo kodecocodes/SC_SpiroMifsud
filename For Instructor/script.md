@@ -37,7 +37,7 @@ We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally
 
  and the standard local IP address 
 
-    127.0.0.1.
+    127.0.0.1
 
 TH
 ------------
