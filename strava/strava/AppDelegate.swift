@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
   
-        if (url.host! == "52.32.131.208") {
+        if (url.host! == "127.0.0.1") {
           OAuthSwift.handle(url: url)
             
         }
