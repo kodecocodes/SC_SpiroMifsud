@@ -76,7 +76,7 @@ Plus we’ll need to add that callback URL.
 
 TH
 ------------
-This is standard for the oAuth2 protocol. Basically, what happens is that oAuth will send back the we need, but it needs to know where to send it. In iOS this is a little tricky because we don’t have a URL or webpage for Strava to it send back to. So, we’ll need to configure a deeplink that will respond to the redirect. Let’s go ahead and add that.
+This is standard for the oAuth2 protocol. Basically, what happens is that oAuth will send back the token we need, but it needs to know where to send it. In iOS this is a little tricky because we don’t have a URL or webpage for Strava to send back to. So, we’ll need to configure a deeplink that will respond to the redirect. Let’s go ahead and add that.
 
 CODING
 ------------
@@ -93,7 +93,7 @@ Inside info.plist we’ll add an entry called URL types. Then we’ll add a URL 
 
 CODING
 ------------
-Going back to our ViewControlller. Here we'll also store this token in the app inside UserDefaults. This is not a ver secure way to persist this type of data. Really, it's not secure and you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
+Going back to our ViewController. Here we'll also store this token in the app inside UserDefaults. This is not a very secure way to persist this type of data. Really, it's not secure and you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
  
      UserDefaults.standard.set(credential.oauthToken, forKey: "token")
          self.accessToken = credential.oauthToken
