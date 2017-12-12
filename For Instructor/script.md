@@ -31,7 +31,7 @@ CODING/SCREEN
 First thing we’ll need to do is get permission to access the Strava API. From the Strava.com site we'll register an app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to catalog this information.
 [show strava page where you sign up. And cut and paste the keys]
 
-We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to put add a callback URL-- which I’ll explain later. For now, use your bundle identifier. In our case this is:
+We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to add a callback URL-- which I’ll explain later. For now, use your bundle identifier. In our case this is:
 
     'com.razeware.strava'
 
