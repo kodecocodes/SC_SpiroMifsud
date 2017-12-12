@@ -1,0 +1,18 @@
+PODS:
+  - OAuthSwift (1.2.0)
+  - Socket.IO-Client-Swift (13.0.1):
+    - Starscream (~> 3.0.2)
+  - Starscream (3.0.2)
+
+DEPENDENCIES:
+  - OAuthSwift (~> 1.2.0)
+  - Socket.IO-Client-Swift (~> 13.0.0)
+
+SPEC CHECKSUMS:
+  OAuthSwift: 7fd6855b8e4d58eb5a30d156ea9bed7a8aecd1ca
+  Socket.IO-Client-Swift: 7055c89b7a9926b343194c4cac75998329c4a95a
+  Starscream: b512c62f6706421221b5ceb2ba01a9f58aca5bea
+
+PODFILE CHECKSUM: ea481631fe9666c82ea0a374f15fbf6ec13cb53f
+
+COCOAPODS: 1.1.1
