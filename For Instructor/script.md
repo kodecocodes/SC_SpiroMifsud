@@ -1,4 +1,21 @@
-﻿
+# Screencast Metadata
+
+-----
+
+### Language, Editor and Platform versions used in these screencasts:
+
+**Language:** Swift 4
+**Platform:** iOS 11, Node JS
+**Editor**: Xcode 9.1
+
+-----
+
+### RW Screencast Title:
+Accessing data using oAuth and Webhooks
+
+### Course Description:
+Using oAuth and Webhooks to access data from a popular site such as Strava inside an iOS application
+
 TH
 ------------
 Hi everybody, this is Spiro. Today we’re going to explore integrating third party data with automatic updates using an API and webhooks-- all by way of oAuth. 
