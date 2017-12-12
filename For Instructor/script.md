@@ -41,7 +41,7 @@ We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally
 
 TH
 ------------
-Now that we have set up Strava for API access, we’ll need to implement the oAuth portion into our application. You’ve probably seen this on some apps. A screen pops up asking you to login and then brings you back to your application. So, why do we need oAuth anyway? Isn’t is just for login?
+Now that we have set up Strava for API access, we’ll need to implement the oAuth portion into our application. You’ve probably seen this on some apps. A screen pops up asking you to login and then brings you back to your application. So, why do we need oAuth anyway? Isn’t it just for login?
 
 For our app, oAuth is going to going to act as the conduit for the data from our service. In our case, we will use oAuth to open a gateway up so we can access their API, which will give us permission to fetch data. We’ll be using a protocol called oAuth2 that will open permissions to our app.
 
