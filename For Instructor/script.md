@@ -18,10 +18,10 @@ Using oAuth and Webhooks to access data from a popular site such as Strava insid
 
 TH
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore integrating third party data with automatic updates using an API and webhooks-- all by way of oAuth. 
-
-In this screencast, we’ll leverage the popular service Strava since it’s become one of the most popular third party services used to track running distance and times. And, we’ll look at two popular libraries called oAuthSwift and Socket.IO to help make this a process a little easier. 
-
+Hi everybody, this is Spiro. Today we’re going to explore integrating third party data into an iOS mobile app with automatic updates using an API and webhooks-- all by way of oAuth.
+ 
+In this screencast, we’ll leverage a popular athlete data tracking service called Strava – this will be our source of third party data. We’ll use two popular libraries called oAuthSwift and Socket.IO to automatically integrate the data from Strava into our own application.
+ 
 So let’s get started!
 
 CODING/SCREEN
