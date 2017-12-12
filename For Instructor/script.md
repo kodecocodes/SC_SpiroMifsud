@@ -28,10 +28,10 @@ CODING/SCREEN
 ------------
 [show AppConfig.swift. Create the file and put the starter info in there] side by side with Strava website 
 
-First thing we’ll need to do is get permission to access the Strava API. From the Strava.com site we'll register and app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to put catalog this information.
+First thing we’ll need to do is get permission to access the Strava API. From the Strava.com site we'll register an app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to catalog this information.
 [show strava page where you sign up. And cut and paste the keys]
 
-We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to put add a callback URL which I’ll explain later. For now, use your bundle identifier, in our case
+We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to put add a callback URL-- which I’ll explain later. For now, use your bundle identifier. In our case this is:
 
     'com.razeware.strava'
 
@@ -41,9 +41,9 @@ We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally
 
 TH
 ------------
-Now that we have set up Strava for API access,  we’ll need to implement the oAuth portion  into our application. You’ve probably seen this on some apps. A screen pops up asking you to use your login and then bring you back to your application. So, why do we need oAuth anyway? Isn’t is just for login?
+Now that we have set up Strava for API access, we’ll need to implement the oAuth portion into our application. You’ve probably seen this on some apps. A screen pops up asking you to login and then brings you back to your application. So, why do we need oAuth anyway? Isn’t is just for login?
 
-For our app, oAuth is going to going to act as the conduit to the data from our service. In our case, to open a gateway up so we can access their API, which will give us permission to fetch data. We’ll be using a protocol called oAuth2 that will open permissions to our app.
+For our app, oAuth is going to going to act as the conduit for the data from our service. In our case, to open a gateway up so we can access their API, which will give us permission to fetch data. We’ll be using a protocol called oAuth2 that will open permissions to our app.
 
 TH
 ------------
@@ -53,8 +53,7 @@ Let’s create a function called authenticateStrava. We’ll use this function t
 
 CODING
 ------------
-First, we set an instance of oAuthSwift and add our information from AppConfig.swift  we’ve collected.
-Next, we create a webView with the additional parameters. 
+First, we set an instance of oAuthSwift and add our information from AppConfig.swift we’ve collected.
 
      private func authenticateStrava() {
              self.oauthswift = OAuth2Swift(
@@ -81,7 +80,7 @@ This is standard for the oAuth2 protocol. Basically, what happens is that oAuth 
 
 CODING
 ------------
-Inside the info.plist we’ll add an entry called URL types. Then we’ll add a URL scheme, which will be that callback URL. Next inside our App Delegate. We’ll add a handler for when that callback occurs and let OAuthSwift know to handle that specific URL.
+Inside info.plist we’ll add an entry called URL types. Then we’ll add a URL scheme, which will be that callback URL. Next we'll navigate our App Delegate. We’ll add a handler for when that callback occurs and let OAuthSwift know to handle that specific URL.
 
      func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
       
@@ -94,7 +93,7 @@ Inside the info.plist we’ll add an entry called URL types. Then we’ll add a 
 
 CODING
 ------------
-Going back to our ViewControlller. We’ll also store this token in the app inside UserDefaults. This is going to be the absolute most insecure way to persist this type of data. It’s really not secure -- you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
+Going back to our ViewControlller. Here we'll also store this token in the app inside UserDefaults. This is not a ver secure way to persist this type of data. Really, it's not secure and you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
  
      UserDefaults.standard.set(credential.oauthToken, forKey: "token")
          self.accessToken = credential.oauthToken
@@ -115,7 +114,9 @@ And, lastly we’ll want to print any errors to the console should something go 
 }
 
 We’ve got a warning now that we have no function named callStravaActivitesAPI().
-We’ll stub one out  for now. Create an function callStravaActivites().
+We’ll stub one out for now. 
+
+Create an function callStravaActivites().
 And let’s print something to the console when this gets called.
 
     private func callStravaActivitesAPI()
@@ -123,13 +124,17 @@ And let’s print something to the console when this gets called.
           print(“I’ve been called!”);
     }
 
-Let’s run the app. Ok, so looks like it’s opening the oAuth window to authenticate and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. Time to put some that tableview!
+Let’s run the app. 
+
+Ok, so looks like it’s opening the oAuth window to authenticate and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
+
+Time to put some that tableview!
 
 We’ll create a URL request to access the Strava API and add the required parameters to the header of our request.  But after that we’ll still need to parse the JSON response into our table cell. 
 
 TH
 ------------
-Inside our project file,  you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We’re after the date called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows. 
+Inside our project file, you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We’re after the data called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows. 
 
 Coding
 ------------
@@ -161,7 +166,6 @@ Give the request the  proper parameters, return type, headers, and our token tha
             do {
           
 Now we’re adding the  iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. 
-
 
 let decoded = try JSONDecoder().decode([StravaActivityStruct].self, from: data!)
         for item in decoded {self.activitesArray.append(item)}
@@ -200,17 +204,19 @@ Great. Now we’ve got our tableview looking nice and full of data.
 
 TH
 ------------
-Ok, so we can access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us everytime a new activity is available so we can update our table? That’s where webhooks come in. We’ll set up a webhook subscription with Strava and have the Strava server let us know when a change takes place. In this next part, we’ll have to set up a simple server to receive the events and then notify our app. To achieve all this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
+Ok, so we can access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us everytime a new activity is available so we can update our table? That’s where webhooks come in. We’ll set up a webhook subscription with Strava and have the Strava server notify us when a change takes place. 
+
+In this next part, we’ll have to set up a simple server to receive the events and then notify our app. To achieve all this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
 
 One thing to note --  for many services you’ll need to enable webhooks. For strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
 
-Assuming you now have webhooks activated on the Strava end -- it’s time to dig in.. 
+Assuming you now have webhooks activated on the Strava end -- it’s time to dig in... 
 
 CODING
 ------------
 [stepping through the app.js file as it’s on the screen]
 
-Looking inside out server file. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
+Looking inside our server file, app.js. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
 This function is actually a verification function we’ll use to send back a unique string to confirm our server is working after we subscribe our app to the webhook. In this case, the name of the string is called hub-challenge. Basically, we’ll get that string and simply send it right back.
 
 The POST part of the strava-subscriptions API, is the actual function that the Strava webhook will hit when an activity is added and then emit a socket event to our app that our event handler is waiting for, and then call the Strava API to fetch more data.
@@ -239,6 +245,12 @@ Finally, let’s start the server.
 TH
 ------------
 Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be access from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
+
+On Screen
+------------
+You'll want to download the ngrok app for your Mac, install, and tunnel your app
+
+$ ./ngrok http 3000
 
 Also, we want our app to be ready to receive notifications as they pass through from Strava, to our Server, and then our app. Again, we don’t want to continuously poll a server, so we’ll be using Socket.IO to capture that event. 
 
