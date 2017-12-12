@@ -1,27 +1,26 @@
 ﻿
-
 TH
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore integrating third party data with automatic updates using an API and webhooks-- all by way of oAuth.
+Hi everybody, this is Spiro. Today we’re going to explore integrating third party data with automatic updates using an API and webhooks-- all by way of oAuth. 
 
-In this screencast, we’ll leverage the popular service Strava since it’s become one of the most popular third party services used to track running distance and times. And, we’ll look at two popular libraries called oAuthSwift and Socket.IO to help make this a process a little easier.
+In this screencast, we’ll leverage the popular service Strava since it’s become one of the most popular third party services used to track running distance and times. And, we’ll look at two popular libraries called oAuthSwift and Socket.IO to help make this a process a little easier. 
 
 So let’s get started!
 
 CODING/SCREEN
 ------------
-[show AppConfig.swift. Create the file and put the starter info in there] side by side with Strava website
+[show AppConfig.swift. Create the file and put the starter info in there] side by side with Strava website 
 
 First thing we’ll need to do is get permission to access the Strava API. From the Strava.com site we'll register and app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to put catalog this information.
 [show strava page where you sign up. And cut and paste the keys]
 
 We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to put add a callback URL which I’ll explain later. For now, use your bundle identifier, in our case
 
-'com.razeware.strava'
+    'com.razeware.strava'
 
-and the standard local IP address
+ and the standard local IP address 
 
-127.0.0.1.
+    127.0.0.1.
 
 TH
 ------------
@@ -38,26 +37,26 @@ Let’s create a function called authenticateStrava. We’ll use this function t
 CODING
 ------------
 First, we set an instance of oAuthSwift and add our information from AppConfig.swift  we’ve collected.
-Next, we create a webView with the additional parameters.
+Next, we create a webView with the additional parameters. 
 
-private func authenticateStrava() {
-self.oauthswift = OAuth2Swift(
-consumerKey:    AppConfig.consumerKey,
-consumerSecret: AppConfig.consumerSecret,
-authorizeUrl:   AppConfig.authorizeURL,
-accessTokenUrl: AppConfig.accessTokenUrl,
-responseType:   AppConfig.responseType
-)
+     private func authenticateStrava() {
+             self.oauthswift = OAuth2Swift(
+             consumerKey:    AppConfig.consumerKey,
+             consumerSecret: AppConfig.consumerSecret,
+             authorizeUrl:   AppConfig.authorizeURL,
+             accessTokenUrl: AppConfig.accessTokenUrl,
+             responseType:   AppConfig.responseType
+             )
 
+ 
+Plus we’ll need to add that callback URL. 
+         
 
-Plus we’ll need to add that callback URL.
-
-
-self.oauthswift?.authorizeURLHandler = WebViewController();
-_ = self.oauthswift?.authorize(
-withCallbackURL: URL(string: AppConfig.callBackURL)!,
-scope: AppConfig.scope, state: AppConfig.state,
-success: { credential, response, parameters in
+    self.oauthswift?.authorizeURLHandler = WebViewController();
+        _ = self.oauthswift?.authorize(
+         withCallbackURL: URL(string: AppConfig.callBackURL)!,
+         scope: AppConfig.scope, state: AppConfig.state,
+         success: { credential, response, parameters in
 
 TH
 ------------
@@ -67,102 +66,102 @@ CODING
 ------------
 Inside the info.plist we’ll add an entry called URL types. Then we’ll add a URL scheme, which will be that callback URL. Next inside our App Delegate. We’ll add a handler for when that callback occurs and let OAuthSwift know to handle that specific URL.
 
-func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-
-if (url.host! == "127.0.0.1") {
-OAuthSwift.handle(url: url)
-}
-UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
-return true
-}
+     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+      
+            if (url.host! == "127.0.0.1") {
+              OAuthSwift.handle(url: url)
+            }
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+        return true
+    }
 
 CODING
 ------------
 Going back to our ViewControlller. We’ll also store this token in the app inside UserDefaults. This is going to be the absolute most insecure way to persist this type of data. It’s really not secure -- you’d really want to use something like the keychain, but for demonstration purposes we’ll use UserDefaults.
-
-UserDefaults.standard.set(credential.oauthToken, forKey: "token")
-self.accessToken = credential.oauthToken
-
+ 
+     UserDefaults.standard.set(credential.oauthToken, forKey: "token")
+         self.accessToken = credential.oauthToken
+          
 Then, we’ll change the navigation login button to a more appropriate logout function that’s already been provided.
 
-self.setNavLogoutButton()
-self.callStravaActivitesAPI()
-},
+      self.setNavLogoutButton()
+         self.callStravaActivitesAPI()
+         },
 
 And, lastly we’ll want to print any errors to the console should something go wrong.
-
-failure: { error in
-print(error.localizedDescription)
-}
-)
-}
+   
+     failure: { error in
+         print(error.localizedDescription)
+         }
+         )
+    }
 }
 
 We’ve got a warning now that we have no function named callStravaActivitesAPI().
 We’ll stub one out  for now. Create an function callStravaActivites().
 And let’s print something to the console when this gets called.
 
-private func callStravaActivitesAPI()
-{
-print(“I’ve been called!”);
-}
+    private func callStravaActivitesAPI()
+    {
+          print(“I’ve been called!”);
+    }
 
 Let’s run the app. Ok, so looks like it’s opening the oAuth window to authenticate and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. Time to put some that tableview!
 
-We’ll create a URL request to access the Strava API and add the required parameters to the header of our request.  But after that we’ll still need to parse the JSON response into our table cell.
+We’ll create a URL request to access the Strava API and add the required parameters to the header of our request.  But after that we’ll still need to parse the JSON response into our table cell. 
 
 TH
 ------------
-Inside our project file,  you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We’re after the date called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows.
+Inside our project file,  you’ll find a struct, StravaActivityStruct, that outlines the data we’ll be collecting from the returned JSON. We’re after the date called name, distance, and start date. We’ll use the iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. And lastly, we’ll have our tableView extract that data and put it into rows. 
 
 Coding
 ------------
 Back to our callStravaActivitesAPI function.
 
-We’ll create an empty array to fill with data for our table.
+ We’ll create an empty array to fill with data for our table.
+   
+     activitesArray = []; 
 
-activitesArray = [];
-
-Next, we’ll make a URL request to the Strava API.
-
-guard let url = URL(string: AppConfig.API) else { return }
-var request = URLRequest(url: url)
-
-Give the request the  proper parameters, return type, headers, and our token that Strava is looking for
+  Next, we’ll make a URL request to the Strava API.
+ 
+       guard let url = URL(string: AppConfig.API) else { return }
+        var request = URLRequest(url: url)
+     
+Give the request the  proper parameters, return type, headers, and our token that Strava is looking for 
 [show a side by side of the Strava documentation outlining the GET request parameters]
-
-request.httpMethod = "GET";
-request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-let access_token = self.accessToken
-request.setValue("Bearer \(access_token)", forHTTPHeaderField: "Authorization")
-
-URLSession.shared.dataTask(with: request) { (data, response, error) in
-if error != nil {
-print(error!.localizedDescription)
-}
-
-guard data != nil else { return }
-do {
-
-Now we’re adding the  iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items.
+ 
+     request.httpMethod = "GET";
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let access_token = self.accessToken
+        request.setValue("Bearer \(access_token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            
+            guard data != nil else { return }
+            do {
+          
+Now we’re adding the  iOS11 JSONDecoder function and our struct to fill an Array with StravaActivity items. 
 
 
 let decoded = try JSONDecoder().decode([StravaActivityStruct].self, from: data!)
-for item in decoded {self.activitesArray.append(item)}
+        for item in decoded {self.activitesArray.append(item)}
+            
+Reload our table once JSON has been received, parsed, and added to our data array 
 
-Reload our table once JSON has been received, parsed, and added to our data array
+      DispatchQueue.main.async(execute: {
+                    self.tableView.reloadData()
+                })
 
-DispatchQueue.main.async(execute: {
-self.tableView.reloadData()
-})
-
-Add some error handling.
-
-} catch let jsonError {
-print(jsonError)
-}
-}.resume()
-};
+ Add some error handling.
+ 
+     } catch let jsonError {
+                print(jsonError)
+            }
+            }.resume()
+    };
 
 OK let’s run it.
 
@@ -170,13 +169,13 @@ Looks close. Let’s format the data so it’s a little more readable. There’s
 
 We’ll convert the date to a more readible format here using convertStravaDate
 
-let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitesArray[indexPath.row].startDate)
+     let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitesArray[indexPath.row].startDate)
 
-
+ 
 And, we’ll convert meters to miles using metersToMiles
+ 
 
-
-let convertedDistance:String = Utils.metersToMiles(distance: activitesArray[indexPath.row].distance)
+     let convertedDistance:String = Utils.metersToMiles(distance: activitesArray[indexPath.row].distance)
 
 Run again.
 
@@ -188,73 +187,73 @@ Ok, so we can access data from Strava. But, instead of us continually accessing 
 
 One thing to note --  for many services you’ll need to enable webhooks. For strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
 
-Assuming you now have webhooks activated on the Strava end -- it’s time to dig in..
+Assuming you now have webhooks activated on the Strava end -- it’s time to dig in.. 
 
 CODING
 ------------
 [stepping through the app.js file as it’s on the screen]
 
-Looking inside out server file. You’ll notice a basic API already set up called ‘strava-subscriptions’.
+Looking inside out server file. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
 This function is actually a verification function we’ll use to send back a unique string to confirm our server is working after we subscribe our app to the webhook. In this case, the name of the string is called hub-challenge. Basically, we’ll get that string and simply send it right back.
 
 The POST part of the strava-subscriptions API, is the actual function that the Strava webhook will hit when an activity is added and then emit a socket event to our app that our event handler is waiting for, and then call the Strava API to fetch more data.
 
 TH
 ------------
-Our first step, is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your mac.
+Our first step, is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your mac. 
 
 CODING
 ------------
-Inside the app.js file you’ll see the following functions.
+Inside the app.js file you’ll see the following functions. 
 From Mac Terminal we'll Install NodeJS and its package manager.
 
 Let's navigate to the project server files, and move those into a directory locally,  and install the node and the dependencies.
 
-brew install node
+    brew install node
 
-Then the dependencies.
+Then the dependencies. 
 
-npm install
+    npm install
 
 Finally, let’s start the server.
 
-node app.js
+    node app.js
 
 TH
 ------------
-Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be access from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet.
+Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be access from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
 
-Also, we want our app to be ready to receive notifications as they pass through from Strava, to our Server, and then our app. Again, we don’t want to continuously poll a server, so we’ll be using Socket.IO to capture that event.
+Also, we want our app to be ready to receive notifications as they pass through from Strava, to our Server, and then our app. Again, we don’t want to continuously poll a server, so we’ll be using Socket.IO to capture that event. 
 
 CODING
 --------------------
-Back to our app.
+Back to our app. 
 
 Let’s go ahead and initialize Sockets  add that event handler. After we receive the notification a Strava activity has been added, our server will emit an event and the app will then call  the function we made earlier and call the API , then refresh our tableView.
 
-private func setSocket() {
-manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": "21222"])])
-socket = manager.defaultSocket
-setSocketEvents()
-socket.connect()
-}
-
-private func setSocketEvents() {
-socket.on(clientEvent: .connect) {data, ack in
-}
-
-socket.on("activitiesUpdated") {data, ack in
-self.callStravaActivitesAPI()
-}
-}
+    private func setSocket() {
+            manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": "21222"])])
+            socket = manager.defaultSocket
+            setSocketEvents()
+            socket.connect()
+        }
+        
+        private func setSocketEvents() {
+            socket.on(clientEvent: .connect) {data, ack in
+            }
+            
+            socket.on("activitiesUpdated") {data, ack in
+              self.callStravaActivitesAPI()
+            }
+        }
 
 we'll also need to call setSocket after we authenticate to make sure we enable our socket connection initially.
 
 the project class contains a stubbed out function receiving an event from our web view. put the code in there:
 
-self.setSocket()
+    self.setSocket()
 
-Our last step will be to subscribe our app to the enabled webhook. We’ll do that using the command they’ve given us. Remember, if we’re tunneling the webhook to our local machine, we’ll need to provide strava with that ngrok URL, not our local IP address.
+Our last step will be to subscribe our app to the enabled webhook. We’ll do that using the command they’ve given us. Remember, if we’re tunneling the webhook to our local machine, we’ll need to provide strava with that ngrok URL, not our local IP address. 
 
 CODING
 ------------
@@ -262,10 +261,10 @@ CODING
 
 Opening your Mac Terminal. Typing in the following. Using the https version of your ngrok string:
 
-curl -X POST https://api.strava.com/api/v3/push_subscriptions -F client_id=21222  -F client_secret=a8e528f08245c358ebaef69f64af65dede3486b0  -F 'object_type=activity'  -F 'aspect_type=create'  -F 'callback_url=https://c9c9b792.ngrok.io/strava-subscriptions' -F 'verify_token=strava'
+    curl -X POST https://api.strava.com/api/v3/push_subscriptions -F client_id=21222  -F client_secret=a8e528f08245c358ebaef69f64af65dede3486b0  -F 'object_type=activity'  -F 'aspect_type=create'  -F 'callback_url=https://c9c9b792.ngrok.io/strava-subscriptions' -F 'verify_token=strava' 
 
 You should receive a confirmation message. Success! Now let’s test our webhook.
 
 [show app open and strava web site. Add an activity and watch the app update]
-Voila! We know have an app that access the Strava API via oAuth and receive webhook updates!
+Voila! We know have an app that access the Strava API via oAuth and receive webhook updates! 
 Thanks for watching. Before you go, I’d like to thank Divyendu Singh for acting as tech editor.  Be sure to follow him on Strava!
