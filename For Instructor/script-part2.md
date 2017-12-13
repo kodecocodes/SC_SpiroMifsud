@@ -16,7 +16,7 @@ Accessing data using Webhooks
 ### Course Description:
 Using Webhooks to access data from a popular site such as Strava inside an iOS application
 
-TH
+TH - Intro
 ------------
 Hi everybody, this is Spiro. Today we’re going to explore how to use webhooks to automate data integration from a third party service into an iOS application - pretty cool! 
 
