@@ -20,7 +20,7 @@ TH
 ------------
 Hi everybody, this is Spiro. Today we’re going to explore how to use webhooks to automate data integration from a third party service into an iOS application - pretty cool! 
 
-In my last screencast, we learned how to use oAuth to integrate third party data into an iOS application. We will now pick up and walk through how to automate that integration process using webhooks and Socket.IO. We will continue to use Strava, a popular athlete data tracking service, as our data source. 
+In my last screencast, we learned how to use oAuth to integrate third party data into an iOS application. We will now pick up and walk through how to automate that integration process using webhooks and Socket.IO. Also, we'll continue to use Strava, a popular athlete data tracking service, as our data source. 
  
  
 So let’s get started!
