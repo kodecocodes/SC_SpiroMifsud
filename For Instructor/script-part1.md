@@ -16,7 +16,7 @@ Accessing data using oAuth
 ### Course Description:
 Using oAuth  to access data from a popular site such as Strava inside an iOS application
 
-TH
+TH - Intro
 ------------
 Hi everybody, this is Spiro. Today we’re going to explore using oAuth to integrate third party data into an iOS mobile app with updates using an API.
  
