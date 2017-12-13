@@ -18,29 +18,40 @@ Using Webhooks to access data from a popular site such as Strava inside an iOS a
 
 TH - Intro
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore how to use webhooks to automate data integration from a third party service into an iOS application - pretty cool! 
+Hi everybody, this is Spiro. 
 
-In my last screencast, we learned how to use oAuth to integrate third party data into an iOS application. We will now pick up and walk through how to automate that integration process using webhooks and Socket.IO. Also, we'll continue to use Strava, a popular athlete data tracking service, as our data source. 
+Today we’re going to explore how to use webhooks to receive notifications when interesting events happen from a web app - such as when data is updated.
+
+We'll start with a project that uses OAuth to connect to Strava, a popular athlete data tracking service. We'll then add webhooks to the project, using Socket.io, [TODO Spiro: explain what socket.io is.]
  
- 
-So let’s get started!
+Before we begin, I would like to thank Divyendu Singh for acting as the tech editor for this screencast. Don't forget to check him out on Twitter. OK, let’s get started!
 
 TH
 ------------
-Using oAuth, we can now access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us automatically--specifically, every time a new activity is available so we can update our table? That’s where webhooks come in. Essentially, the webhook is a callback from the Strava server. Kind of like a push notification gets sent without your app having to initiate the request. We’ll set up a webhook subscription with Strava and have their server notify us when a change takes place. 
+I have a starter project here that OAuth to connect to Strava, a popular athlete data tracking service, and displays some information in a table view. If you'd like to learn how to make this app, check out  my previous screencast on Accessing data using oAuth.
 
-In this example, we’ll set up a simple server to receive the events and then notify our app. To achieve this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
+This app is a good start, but instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us automatically--specifically, every time a new activity is available so we can update our table? That’s where webhooks come in. 
+
+Essentially, the webhook is a callback from the Strava server. Kind of like a push notification gets sent without your app having to initiate the request. We’ll set up a webhook subscription with Strava and have their server notify us when a change takes place. 
+
+[TODO Spiro: give an overview of how webhooks work. You might need some slides here.]
+
+In this example, we’ll set up a simple server to receive the events and then notify our app. To achieve this we’ll also leverage Socket.IO, which give us an asynchronous connection between our server and the app.
+
+[TODO Spiro: give an overview of what socket.io is and how it works. You might need some slides here.]
 
 One thing to note --  for many services, including Strava, you’ll need to enable webhooks. For Strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
 
-Assuming you now have webhooks activated on the Strava end -- it’s time to dig in... 
+I've already emailed Strava and they've enabled webhooks for my app, so let's dig in.
 
 TH
 ------------
-Our first step is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your Mac. 
+Our first step is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your Mac. Don't worry if you're new to NodeJS - I'll walk you through it step by step.
 
 CODING
 ------------
+[TODO Spiro: I feel like there's a missing step here. Where did the app.js file come from? Explain that...]
+
 [stepping through the app.js file as it’s on the screen]
 
 Looking inside our server file, app.js. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
@@ -66,7 +77,11 @@ Finally, let’s start the server.
 
 TH
 ------------
-Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be accessed from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
+Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be accessed from the Internet. 
+
+[TODO Spiro: Describe how ngrok works here for people who haven't used it before.]
+
+You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
 
 On Screen
 ------------
@@ -78,9 +93,9 @@ Also, we want our app to be ready to receive notifications as they pass through 
 
 CODING
 --------------------
-Back to our app. 
+You can find socket.io at [TODO Spiro: show URL here as you show the Github page on screen. Describe how you already installed it into the app.]
 
-Let’s go ahead and initialize Sockets.
+Back to our app. Let’s go ahead and initialize Sockets.
 
 we'll import the library at the top of the class
 
@@ -132,4 +147,8 @@ Voila! We now have an app that can access the Strava API via oAuth and receive w
 
 TH - Conclusion
 ------------
-Thanks for watching! I’d like to thank Divyendu Singh for acting as tech editor--Be sure to follow him on Strava. Also, speaking of webhooks...How does Captain Hook communicate with other pirates?  Using an Ayyyyyyyye Phone!  Until next time, thanks for tuning in!
+Allright, that's everything I'd like to cover in this screencast. 
+
+At this point, you should understand how to use webhooks to receive notifications of events from a web app, such as when data is updated.
+
+Also, speaking of webhooks...How does Captain Hook communicate with other pirates?  Using an Ayyyyyyyye Phone!  Until next time, thanks for tuning in!

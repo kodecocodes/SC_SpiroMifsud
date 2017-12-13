@@ -14,24 +14,26 @@
 Accessing data using oAuth
 
 ### Course Description:
-Using oAuth  to access data from a popular site such as Strava inside an iOS application
+Using oAuth to access data from a popular site such as Strava inside an iOS application
 
 TH - Intro
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore using oAuth to integrate third party data into an iOS mobile app with updates using an API.
+Hi everybody, this is Spiro. Today we’re going to explore using oAuth to integrate third party data into an iOS mobile app.
  
-In this screencast, we’ll leverage a popular athlete data tracking service called Strava – this will be our source of third party data. We’ll use the library oAuthSwift to integrate the data from Strava into our own application.
- 
-So let’s get started!
+In our sample app, we’ll leverage a popular athlete data tracking service called Strava – this will be our source of third party data. We’ll use the popular library oAuthSwift to integrate the data from Strava into our own application.
+
+Before we begin, I would like to thank Divyendu Singh for acting as the tech editor for this screencast. Don't forget to check him out on Twitter. OK, let's get started!
 
 CODING/SCREEN
 ------------
 [show AppConfig.swift. Create the file and put the starter info in there] side by side with Strava website 
 
-First thing we’ll need to do is get permission to access the Strava API. From the Strava.com site we'll register an app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to catalog this information.
+The first thing we’ll need to do is get permission to access the Strava API from our app. 
+
+From the Strava.com site we'll register an app and gather a few access keys and a client ID. There’s an AppConfig.swift file in our starter project to catalog this information.
 [show strava page where you sign up. And cut and paste the keys]
 
-We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll need to add a callback URL-- which I’ll explain later. For now, use your bundle identifier. In our case this is:
+We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally the URL for the API to request activity data for the user. We’ll also need to add a callback URL-- which I’ll explain later. For now, use your bundle identifier. In our case this is:
 
     'com.razeware.strava'
 
@@ -41,15 +43,26 @@ We’ll fill in the appversion, the consumerKey, the consumerSecret, and finally
 
 TH
 ------------
-Now that we have set up Strava for API access, we’ll need to implement the oAuth portion into our application. You’ve probably seen this on some apps. A screen pops up asking you to login and then brings you back to your application. So, why do we need oAuth anyway? Isn’t it just for login?
+Now that we have set up Strava for API access, we’ll need to implement the oAuth portion into our application. You’ve probably seen this on some apps. A screen pops up asking you to login and then brings you back to your application. 
 
-For our app, oAuth is going to going to act as the conduit for the data from our service. In our case, we will use oAuth to open a gateway up so we can access their API, which will give us permission to fetch data. We’ll be using a protocol called oAuth2 that will open permissions to our app.
+When you see something like that, that's oAuth. [TODO Spiro: Describe oAuth and how it works. Make some slides that describe this in a visual way]
+
+[TODO Spiro: The description below isn't clear enough for beginners. Please rewrite this to be more clear and make some slides that describe what you're trying to describe in a visual way.]
+
+So, why do we need oAuth anyway? Isn’t it just for login? For our app, oAuth is going to going to act as the conduit for the data from our service. In our case, we will use oAuth to open a gateway up so we can access their API, which will give us permission to fetch data. We’ll be using a protocol called oAuth2 that will open permissions to our app.
 
 TH
 ------------
-Our starter project already contains the oAuthSwift library and a tableView that we’ll use to load in the data. The library takes care of a lot of the handshaking that happens with oAuth. What we’ll be doing is sending our keys over with a few parameters, along with login credentials from the login screen we bring up. In return, we'll get a token that then will allow us to make calls on behalf of the user without having to keep their username and password --instead, we’ll use the token with our API call.
 
-Let’s create a function called authenticateStrava. We’ll use this function to bring up a webview with a Strava login and then send over the required parameters.
+[Show OAuthSwift github's page]
+
+For this screencast, we're going to use OAuthSwift - a popular open source OAuth library, written in Swift. I've already installed OAuthSwift into my project using Cocoapods.
+
+[TODO Spiro: Make some slides to show what you're describing below visually]
+
+OAuthSwift takes care of a lot of the handshaking that happens with oAuth. What we’ll be doing is sending our keys over with a few parameters, along with login credentials from the login screen we bring up. In return, we'll get a token that then will allow us to make calls on behalf of the user without having to keep their username and password --instead, we’ll use the token with our API call.
+
+Let’s get started by creating a function called authenticateStrava. We’ll use this function to bring up a webview with a Strava login and then send over the required parameters.
 
 CODING
 ------------
@@ -220,4 +233,10 @@ Great. Now we have our tableview looking nice and full of formatted data, which 
 TH - Conclusion
 ------------
 
-Thanks for watching. Before you go, I'd like to thank Divyendu Singh for acting as tech editor. Now, if we could only get Strava to recognize coding as an official sports activity...ahh, a person can dream. 
+Allright, that's everything I'd like to cover in this screencast. 
+
+At this point, you should understand how to use the OAuthSwift library to authenticate your Swift app with a 3rd party API, and acceess some data.
+
+If you'd like to learn more, stay tuned for my next screencast, where I'll show you how you get notified upon events from your web apps, using the power of web hooks.
+
+Now, if we could only get Strava to recognize coding as an official sports activity...ahh, a person can dream. 
