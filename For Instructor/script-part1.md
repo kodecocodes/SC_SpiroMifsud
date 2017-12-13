@@ -1,26 +1,26 @@
-# Screencast Metadata
+﻿# Screencast Metadata
 
 -----
 
 ### Language, Editor and Platform versions used in these screencasts:
 
 **Language:** Swift 4
-**Platform:** iOS 11, Node JS
+**Platform:** iOS 11
 **Editor**: Xcode 9.1
 
 -----
 
 ### RW Screencast Title:
-Accessing data using oAuth and Webhooks
+Accessing data using oAuth
 
 ### Course Description:
-Using oAuth and Webhooks to access data from a popular site such as Strava inside an iOS application
+Using oAuth  to access data from a popular site such as Strava inside an iOS application
 
 TH
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore integrating third party data into an iOS mobile app with automatic updates using an API and webhooks-- all by way of oAuth.
+Hi everybody, this is Spiro. Today we’re going to explore using oAuth to integrate third party data into an iOS mobile app with updates using an API.
  
-In this screencast, we’ll leverage a popular athlete data tracking service called Strava – this will be our source of third party data. We’ll use two popular libraries called oAuthSwift and Socket.IO to automatically integrate the data from Strava into our own application.
+In this screencast, we’ll leverage a popular athlete data tracking service called Strava – this will be our source of third party data. We’ll use the library oAuthSwift to integrate the data from Strava into our own application.
  
 So let’s get started!
 
@@ -53,7 +53,7 @@ Let’s create a function called authenticateStrava. We’ll use this function t
 
 CODING
 ------------
-First, we set an instance of oAuthSwift and add our information from AppConfig.swift we’ve collected.
+First, we set an instance of oAuthSwift and add the information from AppConfig.swift that we’ve collected.
 
      private func authenticateStrava() {
              self.oauthswift = OAuth2Swift(
@@ -126,7 +126,7 @@ And let’s print something to the console when this gets called.
 
 Let’s run the app. 
 
-Ok, so looks like it’s opening the oAuth window to authenticate and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
+Ok, so looks like it’s opening the oAuth window to authenticate, and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
 
 Time to put that data into the tableview!
 
@@ -184,11 +184,21 @@ Reload our table once JSON has been received, parsed, and added to our data arra
             }.resume()
     };
 
+Next we'll move over to our tableView and set the cells to the data we've just appended to our activitiesArray.
+
+```
+let cell:ActivityCell = (tableView.dequeueReusableCell(withIdentifier: "activitycell")as?ActivityCell)!
+let startDate:String = activitesArray[indexPath.row].startDate
+let distance:String = activitesArray[indexPath.row].distance
+let activityType:String = self.activitesArray[indexPath.row].name
+cell.setCell(startDate: startDate + "   |   " + activityType, distance:distance)
+```
+
 OK let’s run it.
 
 Looks close. Let’s format the data so it’s a little more readable. There’s a convenience class called Utils.swift inside the project with some conversion functions. Let’s apply them to the distance and date.
 
-We’ll convert the date to a more readible format here using convertStravaDate
+We’ll convert the date to a more readable format here using convertStravaDate
 
      let convertedStartDate:String = Utils.convertStravaDate(stravaDate: activitiesArray[indexPath.row].startDate)
 
@@ -197,103 +207,17 @@ And, we’ll convert meters to miles using metersToMiles
  
 
      let convertedDistance:String = Utils.metersToMiles(distance: activitiesArray[indexPath.row].distance)
+      
+And let's add the reformated variables to the setCell function      
+
+     cell.setCell(startDate: convertedStartDate + "   |   " + activityType, distance:convertedDistance)
+
 
 Run again.
 
-Great. Now we’ve got our tableview looking nice and full of formatted data.
+Great. Now we have our tableview looking nice and full of formatted data, which means we've successfully used oAuth to integrate third party data from Strava into our iOS app. Phew!
 
-TH
+TH - Conclusion
 ------------
-Ok, so we can access data from Strava. But, instead of us continually accessing the API every few minutes to check for new data, wouldn’t it be nice to have Strava notify us every time a new activity is available so we can update our table? That’s where webhooks come in. We’ll set up a webhook subscription with Strava and have the Strava server notify us when a change takes place. 
 
-In this next part, we’ll set up a simple server to receive the events and then notify our app. To achieve this we’ll also leverage Socket.IO which give us an asynchronous connection between our server and the app.
-
-One thing to note --  for many services, including Strava, you’ll need to enable webhooks. For Strava, you will need to let the developers know via email you’d like to your app to have webhooks activated.
-
-Assuming you now have webhooks activated on the Strava end -- it’s time to dig in... 
-
-TH
-------------
-Our first step is to set up the simple server. We’ll be using NodeJS, which we can run locally. To set that up you’ll need to run a few steps on your Mac. 
-
-CODING
-------------
-[stepping through the app.js file as it’s on the screen]
-
-Looking inside our server file, app.js. You’ll notice a basic API already set up called ‘strava-subscriptions’. 
-This function is actually a verification function we’ll use to send back a unique string to confirm our server is working after we subscribe our app to the webhook. In this case, the name of the string is called hub-challenge. Basically, we’ll get that string and simply send it right back.
-
-The POST part of the strava-subscriptions API is the actual function that the Strava webhook will hit when an activity is added. It will then emit a socket event to our app that our event handler is waiting for, and then call the Strava API to fetch more data.
-
-CODING
-------------
-From Mac Terminal we'll Install NodeJS and its package manager.
-
-Let's navigate to the project server files, and move those into a directory locally,  and install the node and the dependencies.
-
-    brew install node
-
-Then the dependencies. 
-
-    npm install
-
-Finally, let’s start the server.
-
-    node app.js
-
-TH
-------------
-Because we’re running the server on our local machine, we’ll need to route the connection to an actual URL that the Strava server can hit.  We’ll use the popular service ngrok to create a tunnel that can be accessed from the Internet. You can bypass this step if you are using a NodeJS server that is connected to the public Internet. 
-
-On Screen
-------------
-You'll want to download the ngrok app for your Mac, install, and tunnel your app
-
-$ ./ngrok http 3000
-
-Also, we want our app to be ready to receive notifications as they pass through from Strava, to our Server, and then our app. Again, we don’t want to continuously poll a server, so we’ll be using Socket.IO to capture that event. 
-
-CODING
---------------------
-Back to our app. 
-
-Let’s go ahead and initialize Sockets and add that event handler. After we receive the notification a Strava activity has been added, our server will emit an event. The app will then call the function we made earlier and call the API, then refresh our tableView.
-
-    private func setSocket() {
-            manager = SocketManager(socketURL: URL(string: AppConfig.socketURL)!,config: [.log(true),.connectParams(["token": "21222"])])
-            socket = manager.defaultSocket
-            setSocketEvents()
-            socket.connect()
-        }
-        
-        private func setSocketEvents() {
-            socket.on(clientEvent: .connect) {data, ack in
-            }
-            
-            socket.on("activitiesUpdated") {data, ack in
-              self.callStravaActivitiesAPI()
-            }
-        }
-
-We'll also need to call setSocket after we authenticate to make sure we enable our socket connection initially.
-
-The project class contains a stubbed out function receiving an event from our web view. Put the code in there:
-
-    self.setSocket()
-
-Our last step will be to subscribe our app to the enabled webhook. We’ll do that using the command they’ve given us. Remember, if we’re tunneling the webhook to our local machine, we’ll need to provide Strava with that ngrok URL, not our local IP address. 
-
-CODING
-------------
-[show the code side-by-side the Strava API documentation that shows the command)
-
-Opening your Mac Terminal. Typing in the following. Using the https version of your ngrok string:
-
-    curl -X POST https://api.strava.com/api/v3/push_subscriptions -F client_id=21222  -F client_secret=a8e528f08245c358ebaef69f64af65dede3486b0  -F 'object_type=activity'  -F 'aspect_type=create'  -F 'callback_url=https://c9c9b792.ngrok.io/strava-subscriptions' -F 'verify_token=strava' 
-
-You should receive a confirmation message. Success! Now let’s test our webhook.
-
-[show app open and Strava web site. Add an activity and watch the app update]
-Voila! We now have an app that can access the Strava API via oAuth and receive webhook updates! 
-
-Thanks for watching. Before you go, I’d like to thank Divyendu Singh for acting as tech editor.  Be sure to follow him on Strava!
+Thanks for watching. Before you go, I'd like to thank Divyendu Singh for acting as tech editor. Now, if we could only get Strava to recognize coding as an official sports activity...ahh, a person can dream. 
