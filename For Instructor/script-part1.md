@@ -11,14 +11,14 @@
 -----
 
 ### RW Screencast Title:
-Accessing data using oAuth
+Accessing data using OAuth
 
 ### Course Description:
 Using OAuth to access data from a popular site such as Strava inside an iOS application
 
 TH - Intro
 ------------
-Hi everybody, this is Spiro. Today we’re going to explore integrating third party data via an API by way of OAuth, specifically OAuth2.
+Hi everybody, this is Spiro. Today we’re going to explore integrating third party data via an API by way of OAuth, specifically OAuth2 which is now the industry standard
 
 In this screencast, we'll leverage the popular fitness service Strava and use their API to retrieve a list of running activities with distance and time. And, we'll look at the Swift library OAuthSwift to help make this process a little easier.
 
@@ -75,12 +75,12 @@ SLIDE 3
 ------------
 [slide shows the login and the parameters as it's explained OAuthSwift makes this process easier]
 
-OAuthSwift takes care of a lot of the details that happen with oAuth. We'll need to send our keys over with a few parameters, along with login credentials from the login screen we bring up. In return, we'll get theunique user token that gets sent in the redirect. OAuthSwift abstracts a lot of this back and forth by assisting with sending the parameters properly and handling the webview seamlessly in order to get that token. 
+OAuthSwift takes care of a lot of the details that happen with OAuth. We'll need to send our keys over with a few parameters, along with login credentials from the login screen we bring up. In return, we'll get theunique user token that gets sent in the redirect. OAuthSwift abstracts a lot of this back and forth by assisting with sending the parameters properly and handling the webview seamlessly in order to get that token. 
 
 
 CODING
 ------------
-Let’s get started by creating a function called authenticateStrava. We’ll use this function to bring up a webview with a Strava login and then send over the required parameters. First, we set an instance of oAuthSwift and add the information from AppConfig.swift that we’ve collected.
+Let’s get started by creating a function called authenticateStrava. We’ll use this function to bring up a webview with a Strava login and then send over the required parameters. First, we set an instance of OAuthSwift and add the information from AppConfig.swift that we’ve collected.
 
      private func authenticateStrava() {
              self.oauthswift = OAuth2Swift(
@@ -153,7 +153,7 @@ And let’s print something to the console when this gets called.
 
 Let’s run the app. 
 
-Ok, so looks like it’s opening the oAuth window to authenticate, and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
+Ok, so looks like it’s opening the OAuth login window to authenticate, and after a succesful login the app is storing the token. If we look at the console debugger we’ll see that our function callStravaActivitiesAPI is also being called. 
 
 Time to put that data into the tableview!
 
@@ -247,7 +247,7 @@ Great. Now we have our tableview looking nice and full of formatted data.
 TH - Conclusion
 ------------
 
-There you have it! You should now be able to authenticate and authorize a third party service with oAuth2 and use a token to access an API.Before we go, I'd like to thank Divyendu Singh for acting as the tech editor for this screencast. Follow him on Twitter and Strava!
+There you have it! You should now be able to authenticate and authorize a third party service with OAuth2 and use a token to access an API.Before we go, I'd like to thank Divyendu Singh for acting as the tech editor for this screencast. Follow him on Twitter and Strava!
 
 Now, if we could only get Strava to recognize coding as an official sports activity...ahh, a person can dream. 
 
