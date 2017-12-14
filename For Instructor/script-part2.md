@@ -64,7 +64,7 @@ SLIDE 3
 ------------
 [slide shows diagram of socket event emitting from server to app]
 
-Socket.IO is a library that will let us send 2 way communication in real time from a server to a client. Using the socket.IO client library in our app, we're able to receive emitted events from our server. When we implement Socket.IO, we'll create an open connection to the server. 
+Socket.IO is a library that will let us send 2 way communication in real time from a server to a client. Using the Socket.IO client library in our app, we're able to receive emitted events from our server. When we implement Socket.IO, we'll create an open connection to the server. 
 
 SLIDE 4
 ------------
