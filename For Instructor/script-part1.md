@@ -107,7 +107,11 @@ If you remember, when we registered our app with Strava, it asked for a callback
 
 CODING
 ------------
-Inside info.plist we’ll add an entry called URL types. Then we’ll add a URL scheme, which will be that callback URL. Next we'll navigate our App Delegate. We’ll add a handler for when that callback occurs and let OAuthSwift know to handle that specific URL.
+Inside info.plist we’ll add an entry called URL types. Then we’ll add a URL scheme, which will be that callback URL. 
+
+[show adding to plist]
+
+Next we'll navigate our App Delegate. We’ll add a handler for when that callback occurs and let OAuthSwift know to handle that specific URL.
 
      func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
       
@@ -131,14 +135,15 @@ Then, we’ll change the navigation login button to a more appropriate logout fu
          self.callStravaActivitiesAPI()
          },
 
-And, lastly we’ll want to print any errors to the console should something go wrong.
+Next we'll want to our authenticate button code in setNavAuthenticateButton
+
+ callStravaActivitiesAPI()
+
+And, lastly we’ll want to add a call to our authenticate Strava function inside the precoded openAuth fucntion
    
-     failure: { error in
-         print(error.localizedDescription)
-         }
-         )
-    }
-}
+    
+         authenticateStrava
+        
 
 We’ve got a warning now that we have no function named callStravaActivitiesAPI().
 We’ll stub one out for now. 
@@ -165,7 +170,7 @@ Inside our project file, you’ll find a struct, StravaActivityStruct, that outl
 
 Coding
 ------------
-Back to our callStravaActivitiesAPI function.
+Now, back to our callStravaActivitiesAPI function.
 
  We’ll create an empty array to fill with data for our table.
    
@@ -177,7 +182,6 @@ Back to our callStravaActivitiesAPI function.
         var request = URLRequest(url: url)
      
 Give the request the  proper parameters, return type, headers, and our token that Strava is looking for 
-[show a side by side of the Strava documentation outlining the GET request parameters]
  
      request.httpMethod = "GET";
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -221,6 +225,12 @@ let activityType:String = self.activitesArray[indexPath.row].name
 cell.setCell(startDate: startDate + "   |   " + activityType, distance:distance)
 ```
 
+We'll also want to set the number of rows in our tableview to the activitiesArray.count
+
+```
+return activitiesArray.count
+```
+
 OK let’s run it.
 
 Looks close. Let’s format the data so it’s a little more readable. There’s a convenience class called Utils.swift inside the project with some conversion functions. Let’s apply them to the distance and date.
@@ -242,7 +252,7 @@ And let's add the reformated variables to the setCell function
 
 Run again.
 
-Great. Now we have our tableview looking nice and full of formatted data.
+Great. Now we have our tableView looking nice and full of formatted data.
 
 TH - Conclusion
 ------------
@@ -250,4 +260,3 @@ TH - Conclusion
 There you have it! You should now be able to authenticate and authorize a third party service with OAuth2 and use a token to access an API.Before we go, I'd like to thank Divyendu Singh for acting as the tech editor for this screencast. Follow him on Twitter and Strava!
 
 Now, if we could only get Strava to recognize coding as an official sports activity...ahh, a person can dream. 
-
