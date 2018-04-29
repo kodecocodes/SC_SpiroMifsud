@@ -33,13 +33,12 @@ class ViewController: UIViewController {
   private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.raywenderlich.com")
   //private let reachability = Reachability()!
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    checkAndDisplayReachable()
-    //setReachabilityNotifier()
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    displayReachableAlert()
   }
   
-  private func checkAndDisplayReachable() {
+  private func displayReachableAlert() {
     var flags = SCNetworkReachabilityFlags()
     SCNetworkReachabilityGetFlags(reachability!, &flags)
     
