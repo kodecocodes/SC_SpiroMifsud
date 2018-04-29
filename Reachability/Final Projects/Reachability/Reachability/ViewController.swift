@@ -39,24 +39,20 @@ class ViewController: UIViewController {
        // setReachabilityNotifier()
     }
     
-    private func checkReachable()
-    {
+    private func checkReachable() {
         var flags = SCNetworkReachabilityFlags()
         SCNetworkReachabilityGetFlags(reachability!, &flags)
         
-        if (isNetworkReachable(with: flags))
-        {
-            print (flags)
+        if (isNetworkReachable(with: flags)) {
+            print(flags)
             if flags.contains(.isWWAN) {
-                alert(message:"via mobile",title:"Reachable")
+                alert(message: "via mobile",title: "Reachable")
                 return
             }
-            
-            alert(message:"via wifi",title:"Reachable")
-        }
-        else if (!isNetworkReachable(with: flags)) {
-            alert(message:"Sorry no connection",title: "unreachable")
-            print (flags)
+            alert(message: "via wifi",title: "Reachable")
+        } else if (!isNetworkReachable(with: flags)) {
+            alert(message: "Sorry no connection",title: "unreachable")
+            print(flags)
             return
         }
     }
@@ -93,10 +89,6 @@ class ViewController: UIViewController {
         case .none:
             print("Network not reachable")
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }
 
