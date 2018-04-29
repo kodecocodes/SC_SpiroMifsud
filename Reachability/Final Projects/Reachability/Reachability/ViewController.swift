@@ -67,7 +67,7 @@ class ViewController: UIViewController {
   /*
   private func setReachabilityNotifier () {
     //declare this inside of viewWillAppear
-    
+   
     NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
     do{
       try reachability.startNotifier()
@@ -75,11 +75,12 @@ class ViewController: UIViewController {
       print("could not start reachability notifier")
     }
   }
- */
+  */
   
+  /*
   @objc func reachabilityChanged(note: Notification) {
     let reachability = note.object as! Reachability
-    
+   
     switch reachability.connection {
     case .wifi:
       print("Reachable via WiFi")
@@ -89,6 +90,7 @@ class ViewController: UIViewController {
       print("Network not reachable")
     }
   }
+ */
 }
 
 // MARK: - UIViewController Alert
