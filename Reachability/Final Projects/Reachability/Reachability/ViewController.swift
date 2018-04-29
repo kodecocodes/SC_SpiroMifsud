@@ -78,7 +78,6 @@ class ViewController: UIViewController {
   }
  */
   
-  
   @objc func reachabilityChanged(note: Notification) {
     let reachability = note.object as! Reachability
     
