@@ -79,9 +79,9 @@ class ViewController: UIViewController {
   
   /*
   @objc func reachabilityChanged(note: Notification) {
-    let reachability = note.object as! Reachability
+    let reachabilityNotification = note.object as! Reachability
    
-    switch reachability.connection {
+    switch reachabilityNotification.connection {
     case .wifi:
       print("Reachable via WiFi")
     case .cellular:
