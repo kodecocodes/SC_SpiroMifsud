@@ -30,77 +30,78 @@ import UIKit
 import SystemConfiguration
 
 class ViewController: UIViewController {
-    private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.raywenderlich.com")
-    //private let reachability = Reachability()!
+  private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.raywenderlich.com")
+  //private let reachability = Reachability()!
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    checkReachable()
+    // setReachabilityNotifier()
+  }
+  
+  private func checkReachable() {
+    var flags = SCNetworkReachabilityFlags()
+    SCNetworkReachabilityGetFlags(reachability!, &flags)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        checkReachable()
-       // setReachabilityNotifier()
+    if (isNetworkReachable(with: flags)) {
+      print(flags)
+      if flags.contains(.isWWAN) {
+        alert(message: "via mobile",title: "Reachable")
+        return
+      }
+      alert(message: "via wifi",title: "Reachable")
+    } else if (!isNetworkReachable(with: flags)) {
+      alert(message: "Sorry no connection",title: "unreachable")
+      print(flags)
+      return
     }
+  }
+  
+  private func isNetworkReachable(with flags: SCNetworkReachabilityFlags) -> Bool {
+    let isReachable = flags.contains(.reachable)
+    let needsConnection = flags.contains(.connectionRequired)
+    let canConnectAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
+    let canConnectWithoutUserInteraction = canConnectAutomatically && !flags.contains(.interventionRequired)
+    return isReachable && (!needsConnection || canConnectWithoutUserInteraction)
+  }
+  
+  /*
+  private func setReachabilityNotifier () {
+    //declare this inside of viewWillAppear
     
-    private func checkReachable() {
-        var flags = SCNetworkReachabilityFlags()
-        SCNetworkReachabilityGetFlags(reachability!, &flags)
-        
-        if (isNetworkReachable(with: flags)) {
-            print(flags)
-            if flags.contains(.isWWAN) {
-                alert(message: "via mobile",title: "Reachable")
-                return
-            }
-            alert(message: "via wifi",title: "Reachable")
-        } else if (!isNetworkReachable(with: flags)) {
-            alert(message: "Sorry no connection",title: "unreachable")
-            print(flags)
-            return
-        }
+    NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+    do{
+      try reachability.startNotifier()
+    }catch{
+      print("could not start reachability notifier")
     }
+  }
+ */
+  
+  
+  @objc func reachabilityChanged(note: Notification) {
+    let reachability = note.object as! Reachability
     
-    private func isNetworkReachable(with flags: SCNetworkReachabilityFlags) -> Bool {
-        let isReachable = flags.contains(.reachable)
-        let needsConnection = flags.contains(.connectionRequired)
-        let canConnectAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
-        let canConnectWithoutUserInteraction = canConnectAutomatically && !flags.contains(.interventionRequired)
-        return isReachable && (!needsConnection || canConnectWithoutUserInteraction)
+    switch reachability.connection {
+    case .wifi:
+      print("Reachable via WiFi")
+    case .cellular:
+      print("Reachable via Cellular")
+    case .none:
+      print("Network not reachable")
     }
-
-    /*
-    private func setReachabilityNotifier () {
-        //declare this inside of viewWillAppear
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
-        do{
-            try reachability.startNotifier()
-        }catch{
-            print("could not start reachability notifier")
-        }
-    }
-    */
-    
-    @objc func reachabilityChanged(note: Notification) {
-        let reachability = note.object as! Reachability
-        
-        switch reachability.connection {
-        case .wifi:
-            print("Reachable via WiFi")
-        case .cellular:
-            print("Reachable via Cellular")
-        case .none:
-            print("Network not reachable")
-        }
-    }
+  }
 }
 
 // MARK: - UIViewController Alert
 extension UIViewController {
-    func alert(message: String, title: String = "") {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(OKAction)
-        
-        DispatchQueue.main.async  {
-               self.present(alertController, animated: true, completion: nil)
-        }
+  func alert(message: String, title: String = "") {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(OKAction)
+    
+    DispatchQueue.main.async  {
+      self.present(alertController, animated: true, completion: nil)
     }
+  }
 }
