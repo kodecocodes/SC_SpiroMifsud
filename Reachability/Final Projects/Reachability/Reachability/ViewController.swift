@@ -35,11 +35,11 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    checkReachable()
+    checkAndDisplayReachable()
     //setReachabilityNotifier()
   }
   
-  private func checkReachable() {
+  private func checkAndDisplayReachable() {
     var flags = SCNetworkReachabilityFlags()
     SCNetworkReachabilityGetFlags(reachability!, &flags)
     
