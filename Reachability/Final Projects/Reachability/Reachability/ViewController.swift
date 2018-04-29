@@ -46,13 +46,13 @@ class ViewController: UIViewController {
     if (isNetworkReachable(with: flags)) {
       print(flags)
       if flags.contains(.isWWAN) {
-        alert(message: "via mobile",title: "Reachable")
+        alert(message: "via cellular",title: "Reachable")
       } else {
-        alert(message: "via wifi",title: "Reachable")
+        alert(message: "via WiFi",title: "Reachable")
       }
     } else if (!isNetworkReachable(with: flags)) {
       print(flags)
-      alert(message: "Sorry no connection",title: "unreachable")
+      alert(message: "Sorry, no connection",title: "unreachable")
     }
   }
   
