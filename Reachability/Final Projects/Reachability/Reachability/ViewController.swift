@@ -36,6 +36,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     displayReachableAlert()
+    //setReachabilityNotifier()
   }
   
   private func displayReachableAlert() {
