@@ -35,32 +35,31 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.checkReachable()
-       // self.setReachabilityNotifier();
+        checkReachable()
+       // setReachabilityNotifier()
     }
     
     private func checkReachable()
     {
         var flags = SCNetworkReachabilityFlags()
-        SCNetworkReachabilityGetFlags(self.reachability!, &flags)
+        SCNetworkReachabilityGetFlags(reachability!, &flags)
         
         if (isNetworkReachable(with: flags))
         {
             print (flags)
             if flags.contains(.isWWAN) {
-                self.alert(message:"via mobile",title:"Reachable")
+                alert(message:"via mobile",title:"Reachable")
                 return
             }
             
-            self.alert(message:"via wifi",title:"Reachable")
+            alert(message:"via wifi",title:"Reachable")
         }
         else if (!isNetworkReachable(with: flags)) {
-            self.alert(message:"Sorry no connection",title: "unreachable")
+            alert(message:"Sorry no connection",title: "unreachable")
             print (flags)
             return
         }
     }
-    
     
     private func isNetworkReachable(with flags: SCNetworkReachabilityFlags) -> Bool {
         let isReachable = flags.contains(.reachable)
@@ -84,7 +83,6 @@ class ViewController: UIViewController {
     */
     
     @objc func reachabilityChanged(note: Notification) {
-        
         let reachability = note.object as! Reachability
         
         switch reachability.connection {
@@ -102,8 +100,8 @@ class ViewController: UIViewController {
     }
 }
 
-extension UIViewController
-{
+// MARK: - UIViewController Alert
+extension UIViewController {
     func alert(message: String, title: String = "") {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
