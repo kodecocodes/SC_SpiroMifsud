@@ -93,7 +93,7 @@ class ViewController: UIViewController {
  */
 }
 
-// MARK: - UIViewController Alert
+// MARK: - UIViewController Alert Configuration
 extension UIViewController {
   func alert(message: String, title: String = "") {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
