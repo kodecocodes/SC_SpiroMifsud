@@ -133,5 +133,5 @@ TH
 
 After we have successfully gotten a connection and then perform the action we need. 
 
-There you have it! You should now be able to check for an internet connection using to methods, by checking for network status before performing a network function, and setting up anevents that will continuously notify your app of the network connection change. Before we go, I'd like to thank James Taylor for tech editing this screencast. 
+There you have it! You should now be able to check for an internet connection using to methods, by checking for network status before performing a network function, and setting up anevents that will continuously notify your app of the network connection change. Before we go, I'd like to thank James Taylor for tech editing this screencast. And remember, before you make that handshake.. remember to reach out... alright i'm out!
 
