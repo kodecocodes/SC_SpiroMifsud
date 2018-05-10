@@ -14,7 +14,7 @@
 Accessing data using OAuth
 
 ### Course Description:
-Using Reachablity 
+Reachablity in iOS
 
 
 TH
@@ -83,7 +83,8 @@ Now, what if we want to continuously check for a network condition. Suppose we w
 
 Reachability instance (reachability) continuously fires ReachabilityChangedNotification whenever there is a change in the network reachability status. We will set up a function to listen to that notification. This notification will contain the reachability instance as an object.
 
-TH - show github
+TH / Show GitHub page
+------------
 To do something like that we'll leverage a popular class put together by Ashely 
 This class does a good job abstracting a lot of the nuances inside the Reachability class which is a little outside the scope of this screencast. You can manually put this class into your project and call it within ViewController. I've added it inside our starter project.
 
