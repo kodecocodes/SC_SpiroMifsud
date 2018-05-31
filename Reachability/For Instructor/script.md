@@ -10,11 +10,11 @@
 
 -----
 
-### RW Screencast Title:
-Accessing data using OAuth
-
-### Course Description:
+### Screencast Title:
 Reachablity in iOS
+
+### Description:
+[TODO]
 
 
 TH
