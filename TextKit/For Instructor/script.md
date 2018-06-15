@@ -7,7 +7,7 @@
 
 **Language:** Swift 4.1
 **Platform:** iOS 11.4
-**Editor**: Xcode 9.5
+**Editor**: Xcode 9.4
 
 -----
 
