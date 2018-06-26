@@ -14,7 +14,7 @@
 Reachability in iOS
 
 ### Description:
-Handling and Detecting Internet connection issues using reachability.
+Handling and detecting Internet connection issues using reachability.
 
 
 TH
