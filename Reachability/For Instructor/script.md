@@ -11,10 +11,10 @@
 -----
 
 ### Screencast Title:
-Reachablity in iOS
+Reachability in iOS
 
 ### Description:
-[TODO]
+Handling and Detecting Internet connection issues using reachability.
 
 
 TH
