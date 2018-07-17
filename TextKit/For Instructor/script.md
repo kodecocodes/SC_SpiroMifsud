@@ -12,7 +12,7 @@
 -----
 
 ### RW Screencast Title:
-TextKit - Getting Started
+Getting Started with TextKit
 
 ### Course Description:
 Learn how to easily layout your text in iOS using Swift and Text Kit
