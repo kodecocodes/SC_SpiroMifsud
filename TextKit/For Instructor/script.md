@@ -21,14 +21,14 @@ TH - Intro
 ------------
 Hi everybody, this is Spiro, back with another screencast. Today we're going to explore how to enhance text areas by adding fonts, styles, and. While this might sound trivial, text formatting wasn't so easily prior to iOS 7. The release of iOS 7  brought some of the most significant text rendering changes that iOS had ever seen. 
 
-Before TextKit and before even iOS 6Webviews were the way to go to render text with mixed styling. In 2012, iOS 6 added attributed string support to UIKit controls.. making it easier to layouts without having to resort to rendered HTML. iOS 6 introduced UIKit that based their text capabilities on both Webkit and Core Graphics drawing functions. 
+Before TextKit and before even iOS 6. Webviews were the way to go when you needed to render text with mixed styling. In 2012, iOS 6 added attributed string support to UIKit controls.. making it easier to create layouts without having to resort to rendered HTML. iOS 6 introduced UIKit that based text capabilities on both Webkit and Core Graphics drawing functions. 
 
 Slide 1
 ------------
 [diagram of pre iOS 6 text rendering]
 Attributed Strings were helpful, but for advanced layouts and multiline text, the only real solution was Core Text -- which was a bit different and low level to work with.
 
-Fast forward to iOS 7, a new framework, TextKit, gets introduced. TextKit is built on top of CoreText, and abstracts the power of the Core Text framework and wraps it in a nice object-oriented API.
+Fast forward to iOS 7, a new framework, TextKit, gets introduced. TextKit ...built on top of CoreText -- abstracts the power of the Core Text framework and wraps it in a nice object-oriented API.
 
 In this screencast, we'll explore the various features of Text Kit using note-taking app for that features reflowing text, dynamic text resizing, and on-the-fly text styling.
 
@@ -36,20 +36,11 @@ TH
 ------------
 Before we get started, I wanted to give a special thanks to Colin Eberhardt and Gabriel Hauber -- this screencast is based off their original TextKit tutorial.
 
-Ok - ready to create something of note?  Let's get started!
-
-Code
-------------
-[screens of sample app]
-This screencast includes a project with the user interface pre-created so you can stay focused on Text Kit. Now, let's browse through the source code and play with the app a little to get a feel for the apps' structure and how it functions. 
-
-Dynamic type places the onus on your app to conform to user-selected font sizes and weights.
-In iOS 7, open the Settings app and navigate to General/Accessibility and General/Text Size to view the settings that affect how the app displays text. In iOS 8, open the Settings app and navigate to General/Accessibility/Larger Text to access Dynamic Type text sizes.
 
 
 TH
 ------------
-In order to make use of dynamic type you need to specify fonts using styles rather than explicitly stating the font name and size. iOS 7 added a new method to UIFont, preferredFontForTextStyle, that creates a font for the given style using the user's font preferences.
+In order to make use of dynamic type we'll need to specify fonts using styles rather than explicitly stating the font name and size. iOS 7 added a new method to UIFont, preferredFontForTextStyle, that creates a font for the given style using the user's font preferences.
 
 
 SLIDE 2
@@ -61,10 +52,18 @@ The text on the left uses the smallest user selectable text size, the text in th
 
 TH
 ------------
-Now, let's talk about basic support. Implementing basic support for dynamic text is relatively straightforward. Rather than using explicit fonts within your application, you instead request a font for a specific style. At runtime the app selects a suitable font based on the given style and the user's text preferences. Also, what's great is, default labels in table views support Dynamic Type automatically! This makes life easier.
+Now, let's talk about basic support. Implementing basic support for dynamic text is relatively straightforward. Rather than using explicit fonts within your application, you instead request a font for a specific style. At runtime the app selects a suitable font based on the given style and the user's text preferences. What's great with this is, default labels in table views support Dynamic Type automatically! This makes life a lot easier.
 
 Show Screen
 ------------
+
+Ok  Let's dig in
+
+Code
+------------
+[screens of sample app]
+This screencast includes a project with the user interface pre-created so we can stay focused on Text Kit. 
+
 Let's build and run the included app and try changing the default text size to various values. You will discover that both the text size and cell height in the table view list of notes changes accordingly. And you didn't have to do a thing! But do observe also that the notes themselves do not reflect changes to the text size settings
 
 Code 
@@ -81,8 +80,6 @@ Next, open NotesListViewController.swift and add the following to the t
 TH:
 Build and run the app again, and you'll notice that the table view and the note screen now honor the current text size. The difference between the two is pretty obvious 
 
-Show Slide
-------------
 This looks pretty good - but it's part of what we're trying to get to. 
 
 Coding
@@ -115,7 +112,7 @@ TH:
 This code simply instructs the table view to reload its visible cells, which updates the appearance of each cell. This will trigger the calls to preferredFontForTextStyle and refresh the font choice.
 Now, build and run your app; change the text size setting, and verify that your app responds correctly to the new user preferences.
 
-Great, that part seems to work well, but when you select a really small font size, your table view ends up looking a little 
+Great, that part seems to work well, but when you select a really small font size, your table view ends up looking a little .. off. 
 
 Code 
 -------
@@ -152,7 +149,7 @@ Build and run your app. Next, modify the text size setting once more and the tab
 If you like, you may now reset the deployment to iOS 8 for the rest of the tutorial.
 
 TH:
-Now, let's talk about the letterpress effect. The letterpress effect adds subtle shading and highlights to text that give it a sense of depth - much like the text has been slightly pressed into the screen.
+Now, let's talk about this really cool letterpress effect. The letterpress effect adds subtle shading and highlights to text that give it a sense of depth - much like the text has been slightly pressed into the screen.
 
 Code:
 
