@@ -128,7 +128,9 @@ func createTextView() {
     view.addSubview(textView)
   }
 
-Talking head: This is quite a lot of code. Let's consider each step in turn (show slide):
+Talking Head
+--------
+This is quite a lot of code. Let's consider each step in turn (show slide):
 o Initiate an instance of your custom text storage, and initialize it with an attributed string holding the content of the note.
 o Create a layout manager.
 o Create a text container and associate it with the layout manager. Then, associate the layout manager with the text storage.
@@ -141,7 +143,8 @@ Note that the text container has a width matching the view width, but has infini
 
 In any case, this is more than enough to allow the UITextView to scroll and accommodate long passages of text.
 
-Show Screen: 
+Coding (show screen)
+--------
 Now still working in NoteEditorViewController.swift add the line below directly after the super.viewDidLoad() line in viewDidLoad:
 createTextView()
 
@@ -151,7 +154,8 @@ Build and run your app; open a note and edit the text while keeping an eye on th
 This is simply the logging code from within SyntaxHighlightTextStorage to give you an indication that your custom text handling code is actually being called.
 
 
-Talking Head: 
+Talkig Head
+--------
 The basic foundation of your text parser seems fairly solid - now to add the dynamic formatting! In this next step you are going to modify your custom text storage to embolden text *surrounded by asterisks*.
 Screen: Open SyntaxHighlightTextStorage.swift and add the following method:
 
@@ -213,10 +217,13 @@ Talking Head: Build and run your app; type some text into a note and surround so
 
 That's pretty handy - you're likely thinking of all the other styles that you might add to your text. You're in luck, the next section shows you how to do just that!
 
-TH 
+Talking Header
+--------
 The basic principle of applying styles to delimited text is rather straightforward: use a regex to find and replace the delimited string using applyStylesToRange to set the desired style of the text.
 
-Show Screen: 
+Coding
+--------
+
 Open SyntaxHighlightTextStorage.swift and add the following method to the class:
 
     func createAttributesForFontStyle(style: String, withTrait trait: UIFontDescriptorSymbolicTraits) -> [NSObject : AnyObject] {
@@ -309,7 +316,8 @@ Screen: You will also need to initialize the replacements dictionary. Add the fo
         }
       }
 
-TH:
+TH
+--------
 Previously, this method performed just one regex search for bold text. Now it does the same thing, but it iterates over the dictionary of regex matches and attributes since there are many text styles to look for. For each regex, it runs the search and applies the specified style to the matched pattern.
 
 Note that the initialization of the NSRegularExpression can fail, so here it is implicitly unwrapped. If, for some reason, the pattern has an error in it resulting in a failed compilation of the pattern, the code will fail on this line, forcing you to fix the pattern, rather than failing further down.
@@ -323,7 +331,8 @@ As for the second issue, if you add a lot of text to a note you'll notice that t
 
 Time to fix up those two issues.
 
-Screen: 
+Coding
+--------
 To correct the issue with dynamic type, your code should update the fonts used by the attributed string containing the text of the note when the content size change notification occurs.
 
 Add the following function to the SyntaxHighlightTextStorage class:
@@ -349,5 +358,6 @@ Finally, open NoteEditorViewController.swift and modify
       }
 
  
-TH 
-Hopefully, this Text Kit screencast has helped you understand the various new features such as dynamic type, font descriptors and letterpress, that you will no doubt find use for in practically ever app you write.
+TH
+--------
+Hopefully, this Text Kit screencast has helped you understand the various new features such as dynamic type, font descriptors and letterpress, that you will no doubt find use for in practically every app you write.
