@@ -16,9 +16,8 @@ Sharing credentials between your iOS app and websites with Shared Web Credential
 ### Course Description:
 Implementing shared web credentials so your apps can access credentials storedfor a website instead of requiring users to reenter a username and password
 
-TH - Intro
+## TH - Intro
 ------------
-## Introduction
 
 Today, we're going to explore Shared Web Credentials. Shared Web Credentials is a technology Apple has introduced which allows seamless login into your iOS app after a user has logged into your website using Safari.
 
@@ -56,8 +55,11 @@ We'll have to set up 2 components to make Shared Credentials work - the iOS app 
 
 Our first step is to set up our web server. Since Shared Web Credentials requires a functioning domain set up over SSL, we will use a free [Heroku](https://www.heroku.com) account. Heroku offers up to 5 free domains, and will satisfy this Apple requirement.
 
+#### demo1
 1. Head on over to the [Heroku Site](https://www.heroku.com). Setup a free account if you don't already have one, and log in.
 2. Set up the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) following the instructions for macOS using either homebrew or the native installer
+
+#### demo2
 3. Open Terminal, and enter `heroku login`
 4. Enter your Heroku credentials
 5. Clone the web app repository to a local folder on your mac by running `git clone git@github.com:raywenderlich/shared-credentials.git`. This web app is written in Ruby on Rails, but you won't need to know any implementation details to get this demo up and running!
@@ -65,17 +67,20 @@ Our first step is to set up our web server. Since Shared Web Credentials require
 7. In the `apps` array, update the bundle identifier to match the one you just created on the Apple Dev Portal. Replace `MX49LZU2AV.com.example.test.sharedcredentials` with your team prefix and bundle id and save the file.
 ![rails site association](images/rails-site-association.png)
 8. Back in Terminal, cd into the base folder of the web app and stage the changes by typing `git add .`
+
+#### demo3
 9. Commit the changes by typing git commit -m "Adding bundle id"
 10. Type `heroku create` to create a new Heroku app. This will create a new remote on your git repo named `heroku`. This will take a bit, so I'm going to skip ahead to the end. Make note of the new domain Heroku has assigned for you.
 11. Push your web app up to Heroku by running `git push heroku master` from the terminal. This should make your web app live. Go to the Heroku domain in the previous step and verify your web app is up and running. You should see a blank page with a Log In button on the top right of the nav bar.
 
-That's it for this section. On to the iOS app!
+That's it for this selection. On to the iOS app!
 
-#### iOS App Setup
+#### demo4 (additional screen of heroku)
 
+#### demo6
 The example app was created from the single view Xcode template. It is a single ViewController wrapped inside a NavigationController. All button actions and element outlets are wired up already, and we'll just be implementing the logic to enable the Shared Web Credentials functionality.
 
-##### App Capabilities Setup
+#### demo6
 
 First we'll need to configure the app to use the Associated Domains capability:
 
@@ -91,8 +96,7 @@ First we'll need to configure the app to use the Associated Domains capability:
 
 This will set up the trust relationship with your new domain. Next we need to set up the web app.
 
-##### Setting up the App to Store Credentials in iCloud
-
+#### demo6_1
 The first thing we'll need to do is open our newly created domain and attempt a login. This will get Safari to prompt us to store the credentials used for the site, and we can use them later to log the user into the app.
 
 First, we'll need to do some brief setup inside the iOS Simulator.
@@ -100,18 +104,21 @@ First, we'll need to do some brief setup inside the iOS Simulator.
 1. Open the simulator via Xcode's Developer Tool menu. After it's open, go to the Settings app. Verify you are logged in under your iCloud account. 
 2. After you're signed in, still inside the Settings app, navigate to Safari => Autofill, and turn on Names and Passwords. This will allow mobile Safari to prompt you to save your passwords on new sites.
 
+#### demo7 (demo8 has additional take of the screens)
 Now, we can add the code that will set up Shared Credentials
 
 1. Back in Xcode, open `LoginViewController.swift`
 2. At the top of the file, under all the `@IBOutlet` declarations, update the `websiteURLString` variable to match the homepage of your new domain that you got during the web app setup.
 3. Now we can run the app and store our credentials in iCloud Keychain. Run the app.  
+
+#### demo9
 4. Before you open the site, you need to login to iCloud inside the simulator. If you're not logged into iCloud, shared credentials can't be stored to your iCloud keychain. Navigate to the Settings app and ensure you're logged into your iCloud account.
 5. Now navigate back to the iOS app and tap on the Open Website bar button.
 6. Once Mobile Safari opens to the webpage, click Login in the header (You might have to scroll horizontally to get there)
 7. Enter any email address and password (it doesn't matter which, the site will accept any properly formatted email address and any password)
 8. Once you tap Login or hit the Enter key, you should be prompted by Mobile Safari to Save Password. Accept this prompt. 
 
-**Accessing Shared Credentials From Your App**
+#### demo10
 
 We now have stored credentials for your new domain in iCloud Keychain. The final step will be to set the app up to read them, and we'll be able to use them to log your user in without having to enter them manually
 
@@ -136,7 +143,7 @@ SecRequestSharedWebCredential(nil, nil) { [weak self] (results, error) in
 
 }
 ```
-
+#### demo11
 5. The first thing we'll do after the request completes is to guard against any errors. If the error parameter on the completion block is not nil, then something has failed. We'll log it and exit. We'll also grab a strong reference to the viewcontroller from the capture list above to prevent any retain cycles. Add this code first right inside the completion block:
 ```
 guard error == nil,
@@ -186,16 +193,16 @@ let password = strongSelf.unsafeBitcastToString(from: unsafePassword)
 strongSelf.fillCredentialsAndLogin(withUserName: username,
 password: password)
 ```
-
+#### demo12
 11. Finally, inside `requestSharedCredentialsTapped(_:)`, make a call to `attemptLoginFromSharedCredentials()`. Normally you would initiate this immediately when the Login screen comes into view, but since this is a single view app, we needed a way to trigger it manually.
 
-##### Testing Your Shared Credentials
+#### demo13 (has the succesful launch of the demo app/final screen)
 1. Now, run the app in the simulator again.
 2. Tap the **Request Login with Shared Credentials** button.
 3. You should receive a system `UIAlert` that allows you to tap the email address you used on the web login from earlier.
 4. Tap that entry, and see that the credentials are populated for you, and Login sequence begins with no further interaction.
 
-## Closing 
+## TH - Conclusion
 
 Ok, that was a lot, but I think it was worth it! The setup is a bit complicated, but once your domain is set up properly, the code to implement this in an iOS app is pretty minimal, and worth the effort for your users. Having a site association file in place also enables some other cool features, such as **Universal Links** and **NSUserActivity** continuation.
 
