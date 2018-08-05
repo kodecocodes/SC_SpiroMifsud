@@ -18,7 +18,6 @@ Implementing shared web credentials so your apps can access credentials storedfo
 
 ## TH - Intro
 ------------
-
 Today, we're going to explore Shared Web Credentials. Shared Web Credentials is a technology Apple has introduced which allows seamless login into your iOS app after a user has logged into your website using Safari.
 
 Shared Web Credentials works using iCloud Keychain, and establishes trust between your site and your app via the site association file. This is a file Apple requires you to host on your domain. If your user has opted into iCloud Keychain and has elected to store their credentials for your domain there, you will be able to present UI that allows them to use those same credentials to log into your app without the need to type a username or password.
@@ -89,8 +88,6 @@ First we'll need to configure the app to use the Associated Domains capability:
 4. Enter a Bundle Id in the Bundle Identifier field here. This bundle id should match the one you set up on the web app (minus the team id prefix) next
 5. Select the Capabilties tab, scroll to the Associated Domains section, and click the switch to turn it on
 6. Click the **+** in this section, and enter your bundle id prefixed by `webcredentials:`. Example:  `webcredentials:com.test.shared-credentials`
-
-![Associated Domain Capability](images/associated-domains-capability.png)
 
 This will set up the trust relationship with your new domain. Next we need to set up the web app.
 
