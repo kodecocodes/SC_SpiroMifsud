@@ -65,7 +65,6 @@ Our first step is to set up our web server. Since Shared Web Credentials require
 5. Clone the web app repository to a local folder on your mac by running `git clone git@github.com:raywenderlich/shared-credentials.git`. This web app is written in Ruby on Rails, but you won't need to know any implementation details to get this demo up and running!
 6. Inside the base folder of the newly cloned repository, open the `apple-app-site-association.rb` file located at `shared-credentials/config/initializers/apple-app-site-association.rb` in a plain text editor such as [Atom](https://atom.io) or [Visual Studio Code](https://code.visualstudio.com).
 7. In the `apps` array, update the bundle identifier to match the one you just created on the Apple Dev Portal. Replace `MX49LZU2AV.com.example.test.sharedcredentials` with your team prefix and bundle id and save the file.
-![rails site association](images/rails-site-association.png)
 8. Back in Terminal, cd into the base folder of the web app and stage the changes by typing `git add .`
 
 #### demo3
@@ -88,7 +87,6 @@ First we'll need to configure the app to use the Associated Domains capability:
 2. Select the General tab in the center pane
 3. Select the app target in the left pane under the Targets heading.
 4. Enter a Bundle Id in the Bundle Identifier field here. This bundle id should match the one you set up on the web app (minus the team id prefix) next
-![bundle id](images/bundle-id.png)
 5. Select the Capabilties tab, scroll to the Associated Domains section, and click the switch to turn it on
 6. Click the **+** in this section, and enter your bundle id prefixed by `webcredentials:`. Example:  `webcredentials:com.test.shared-credentials`
 
