@@ -62,7 +62,7 @@ Our first step is to set up our web server. Since Shared Web Credentials require
 3. Open Terminal, and enter `heroku login`
 4. Enter your Heroku credentials
 5. Clone the web app repository to a local folder on your mac by running `git clone git@github.com:raywenderlich/shared-credentials.git`. This web app is written in Ruby on Rails, but you won't need to know any implementation details to get this demo up and running!
-6. Inside the base folder of the newly cloned repository, open the `apple-app-site-association.rb` file located at `shared-credentials/config/initializers/apple-app-site-association.rb` in a plain text editor such as [Atom](https://atom.io) or [Visual Studio Code](https://code.visualstudio.com).
+6. Inside the base folder of the newly cloned repository, open the `apple-app-site-association.rb` file located at `shared-credentials/config/initializers/apple-app-site-association.rb` in a plain text editor such as [Atom](https://atom.io) or [Visual Studio Code](https://code.visualstudio.com), or Sublime.
 7. In the `apps` array, update the bundle identifier to match the one you just created on the Apple Dev Portal. Replace `MX49LZU2AV.com.example.test.sharedcredentials` with your team prefix and bundle id and save the file.
 8. Back in Terminal, cd into the base folder of the web app and stage the changes by typing `git add .`
 
