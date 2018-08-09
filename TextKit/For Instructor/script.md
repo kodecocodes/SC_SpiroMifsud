@@ -19,9 +19,9 @@ Learn how to easily layout your text in iOS using Swift and Text Kit
 
 TH - Intro
 ------------
-Hi everybody, this is Spiro, back with another screencast. Today we're going to explore how to enhance text areas by adding fonts, styles, and. While this might sound trivial, text formatting wasn't so easily prior to iOS 7. The release of iOS 7  brought some of the most significant text rendering changes that iOS had ever seen. 
+Hi everybody, this is Spiro, back with another screencast. Today we're going to explore how to enhance text areas by adding fonts, styles, and ???. While this might sound trivial, text formatting wasn't so easily prior to iOS 7. The release of iOS 7 brought some of the most significant text rendering changes that iOS had ever seen. 
 
-Before TextKit and before even iOS 6. Webviews were the way to go when you needed to render text with mixed styling. In 2012, iOS 6 added attributed string support to UIKit controls.. making it easier to create layouts without having to resort to rendered HTML. iOS 6 introduced UIKit that based text capabilities on both Webkit and Core Graphics drawing functions. 
+Before TextKit and before even iOS 6, Webviews were the way to go when you needed to render text with mixed styling. In 2012, iOS 6 added attributed string support to UIKit controls, making it easier to create layouts without having to resort to rendered HTML. Back then, text-based UIKit views relied on both WebKit and Core Graphics. 
 
 Slide 1
 ------------
@@ -30,7 +30,7 @@ Attributed Strings were helpful, but for advanced layouts and multiline text, th
 
 Fast forward to iOS 7, a new framework, TextKit, gets introduced. TextKit ...built on top of CoreText -- abstracts the power of the Core Text framework and wraps it in a nice object-oriented API.
 
-In this screencast, we'll explore the various features of Text Kit using note-taking app for that features reflowing text, dynamic text resizing, and on-the-fly text styling.
+In this screencast, we'll explore the various features of Text Kit using a note-taking app that features reflowing text, dynamic text resizing, and on-the-fly text styling.
 
 TH
 ------------
@@ -70,12 +70,16 @@ Code
 ------
 Open NoteEditorViewController.swift and add the following to the end of viewDidLoad:
 
+```swift
 textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-Notice you're not specifying an exact font such as Helvetica Neue. Instead, you're asking for an appropriate font for body text with the UIFontTextStyleBody text style constant.
-Next, open NotesListViewController.swift and add the following to the t
+```
 
-    ableView(_:cellForRowAtIndexPath:) method, just before the return call:
+Notice you're not specifying an exact font such as Helvetica Neue. Instead, you're asking for an appropriate font for body text with the UIFontTextStyleBody text style constant.
+Next, open NotesListViewController.swift and add the following to the tableView(_:cellForRowAtIndexPath:) method, just before the return call:
+    
+ ```swift
     cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+ ```
 
 TH:
 Build and run the app again, and you'll notice that the table view and the note screen now honor the current text size. The difference between the two is pretty obvious 
@@ -200,7 +204,7 @@ Next, add this code to the very end of viewDidLoad:
         textView.addSubview(timeView) 
 
 This simply creates an instance of the new view and adds it as a subview.
-TimeIndicatorView calculates its own size, but it won't do this automatically. You need a mechanism to call updateSize when the view controller lays out the subviews.
+TimeIndicatorView calculates its own size, but it won't do this automatically. You need a mechanism to call `updateSize` when the view controller lays out the subviews.
 Finally, add the following two methods to the class:
 
     override func viewDidLayoutSubviews() {
@@ -217,8 +221,8 @@ Finally, add the following two methods to the class:
         textView.textContainer.exclusionPaths = [exclusionPath]
       } 
 
-viewDidLayoutSubviews calls updateTimeIndicatorFrame, which does two things: it calls updateSize to set the size of the subview, and positions the subview in the top right corner of the text view.
-All that's left is to call updateTimeIndicatorFrame when your view controller receives a notification that the size of the content has changed. Replace the implementation of preferredContentSizeChanged to the following:
+`viewDidLayoutSubviews` calls `updateTimeIndicatorFrame`, which does two things: it calls `updateSize` to set the size of the subview, and positions the subview in the top right corner of the text view.
+All that's left is to call `updateTimeIndicatorFrame` when your view controller receives a notification that the size of the content has changed. Replace the implementation of preferredContentSizeChanged to the following:
 
 
 @objc func preferredContentSizeChanged(notification: NSNotification) {
